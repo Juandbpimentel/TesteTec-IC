@@ -16,7 +16,3 @@ Este projeto implementa um sistema e uma API RESTful para gerenciar e consultar 
 - **Documentação:** API documentada utilizando ferramentas como Swagger ou Postman.
 - **Validação de Dados:** Uso de validações robustas para garantir a integridade das informações.
 - **Desempenho:** Foco em otimização para consultas rápidas e eficientes.
-
----
-
-Se precisar de mais detalhes ou ajustes, é só avisar! 😊
