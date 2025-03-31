@@ -1,0 +1,44 @@
+name: Build and Deploy Backend to App Engine
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "etapa_sistema_e_api/backend/**"
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.13"
+
+      - name: Instalar dependências
+        run: |
+          cd backend
+          pip install --no-cache-dir -r requirements.txt
+
+      - name: Rodar testes
+        run: |
+          cd etapa_sistema_e_api/backend
+          pytest
+
+      - name: Gerar app.yaml a partir do template
+        run: |
+          cd etapa_sistema_e_api/backend
+          envsubst < app.yaml.template > app.yaml
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+      - name: Deploy para App Engine
+        run: |
+          cd etapa_sistema_e_api/backend
+          gcloud app deploy app.yaml --quiet
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
