@@ -1,6 +1,7 @@
 name: Build and Deploy Backend to App Engine
 
 on:
+    workflow_dispatch:
     push:
         branches: [main]
         paths:
