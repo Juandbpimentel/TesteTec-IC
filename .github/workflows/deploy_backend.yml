@@ -15,6 +15,16 @@ jobs:
             - name: Checkout do código
               uses: actions/checkout@v3
 
+            - name: Configurar autenticação no Google Cloud
+              uses: google-github-actions/auth@v1
+              with:
+                credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+
+            - name: Configurar o SDK do Google Cloud
+              uses: google-github-actions/setup-gcloud@v1
+              with:
+                project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+
             - name: Configurar Python
               uses: actions/setup-python@v3
               with:
@@ -58,6 +68,3 @@ jobs:
               run: |
                   cd etapa_sistema_e_api/backend
                   gcloud app deploy app.yaml --quiet
-              env:
-                  GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
-                  GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
