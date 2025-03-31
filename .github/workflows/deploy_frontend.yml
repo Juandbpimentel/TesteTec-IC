@@ -28,7 +28,8 @@ jobs:
       - name: Rodar testes unitários
         run: |
           cd etapa_sistema_e_api/frontend
-          npm run test
+          npm run test:unit
+          npm run test:e2e
 
       - name: Build do Frontend
         run: |
