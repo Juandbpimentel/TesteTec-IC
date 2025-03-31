@@ -1,7 +1,13 @@
 <script setup lang="ts">
-defineProps<{
-  msg: string
-}>()
+import { defineProps } from 'vue'
+
+defineProps({
+  msg: {
+    type: String,
+    required: true,
+  },
+})
+
 </script>
 
 <template>

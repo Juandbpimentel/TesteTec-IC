@@ -9,6 +9,6 @@ app = FastAPI(title="Backend FastAPI com PostgreSQL")
 
 app.include_router(api_router)
 
-app.get("/")
+@app.get("/")
 def read_root():
     return {"message": "Bem-vindo ao backend FastAPI com PostgreSQL!"}

@@ -1,2 +1,4 @@
 .env
 credentials.json
+app.yaml
+__pycache__

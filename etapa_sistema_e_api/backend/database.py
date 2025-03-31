@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://usuario:senha@localhost:5432/fastapidb")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgresjuandbpimentel@localhost:5432/postgres")
 
 engine = create_engine(DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

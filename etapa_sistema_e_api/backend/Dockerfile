@@ -15,9 +15,9 @@ RUN apt-get update && apt-get install -y wget \
 # Copia o restante do código
 COPY . .
 
-EXPOSE 8000
+EXPOSE 8080
 
 # CMD: inicia o Cloud SQL Auth Proxy e, em seguida, o backend
 # Substitua <INSTANCE_CONNECTION_NAME> pelo nome da sua instância no formato: projeto:região:instância
 CMD ./cloud_sql_proxy -instances=testetec-ic:southamerica-east1:testetec-id-postgres=tcp:5432 -credential_file=/app/credentials.json & \
-    uvicorn main:app --host 0.0.0.0 --port 8000
+    uvicorn main:app --host 0.0.0.0 --port 8080
