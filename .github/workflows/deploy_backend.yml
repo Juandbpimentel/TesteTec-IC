@@ -37,7 +37,7 @@ jobs:
 
             - name: Criar arquivo de credenciais do Google Cloud
               run: |
-                  echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > $HOME/gcp-key.json
+                  echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > etapa_sistema_e_api/backend/credentials.json
 
             - name: Baixar e iniciar o Cloud SQL Auth Proxy
               run: |
@@ -45,7 +45,7 @@ jobs:
                   wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
                   chmod +x cloud_sql_proxy
                   # Iniciar o Cloud SQL Proxy em background
-                  ./cloud_sql_proxy -instances=${{ secrets.INSTANCE_CONNECTION_NAME }}=tcp:5432 -credential_file=$HOME/gcp-key.json &
+                  ./cloud_sql_proxy -instances=${{ secrets.INSTANCE_CONNECTION_NAME }}=tcp:5432 -credential_file=etapa_sistema_e_api/backend/credentials.json
                   sleep 5  # Aguarda o proxy subir antes de iniciar os testes
 
             - name: Iniciar backend e rodar testes
