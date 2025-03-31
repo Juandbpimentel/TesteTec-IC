@@ -18,5 +18,3 @@ Este projeto implementa um sistema e uma API RESTful para gerenciar e consultar 
 - **Desempenho:** Foco em otimização para consultas rápidas e eficientes.
 
 ---
-
-Se precisar de mais detalhes ou ajustes, é só avisar! 😊
