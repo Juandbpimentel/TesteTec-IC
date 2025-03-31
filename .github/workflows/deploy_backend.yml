@@ -25,9 +25,9 @@ jobs:
                   cd etapa_sistema_e_api/backend
                   pip install --no-cache-dir -r requirements.txt
 
-                  - name: Criar arquivo de credenciais do Google Cloud
-                  run: |
-                    echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > $HOME/gcp-key.json
+            - name: Criar arquivo de credenciais do Google Cloud
+              run: |
+                  echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > $HOME/gcp-key.json
 
             - name: Baixar e iniciar o Cloud SQL Auth Proxy
               run: |
