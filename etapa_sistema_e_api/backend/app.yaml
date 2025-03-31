@@ -1,0 +1,9 @@
+runtime: custom
+env: flex
+
+automatic_scaling:
+    min_num_instances: 1
+    max_num_instances: 3
+# env_variables:
+#   DATABASE_URL: "$DATABASE_URL"
+#   SECRET_KEY: "$SECRET_KEY"
