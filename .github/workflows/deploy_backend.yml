@@ -31,13 +31,13 @@ jobs:
           chmod +x cloud_sql_proxy
           # Iniciar o Cloud SQL Proxy em background
           ./cloud_sql_proxy -instances=${{ secrets.INSTANCE_CONNECTION_NAME }}=tcp:5432 -credential_file=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} &
-          sleep 5  # Aguarda o proxy subir antes de iniciar os testes
+          sleep 30  # Aguarda o proxy subir antes de iniciar os testes
 
       - name: Iniciar backend e rodar testes
         run: |
           cd etapa_sistema_e_api/backend
           nohup uvicorn main:app --host 0.0.0.0 --port 8080 &
-          sleep 5  # Aguarda o backend subir
+          sleep 15  # Aguarda o backend subir
           pytest
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
