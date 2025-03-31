@@ -1,0 +1,5 @@
+polars
+pyarrow
+lz4
+firebase_admin
+psycopg2

@@ -1,46 +1,61 @@
-# Etapa de Web Scrapping
-Para realizar esta tarefa que envolve carregar uma página e baixar os arquivos eu resolvi utilizar o python pois ele tem ótimas ferramentas para acesso de páginas e coleta de conteúdo delas, e também tem ferramentas simples de usar para implementar assincronismo e paralelismo, e também porque eu já tinha utilizado ele antes para fazer essas tarefas em estudos acadêmicos e pessoais.
+# **Etapa de Web Scrapping**
 
-## Ferramentas Utilizadas
-- `os`  
-  - Utilizei para obter o caminho do arquivo zip gerado, para facilitar de quem utilizar o script encontrar o arquivo.
+Este projeto realiza o download de arquivos PDF a partir de uma página web e os compacta em um arquivo ZIP. Ele foi desenvolvido utilizando o Python, aproveitando suas ferramentas robustas para acesso a páginas web, coleta de conteúdo e execução assíncrona para maior eficiência.
 
-- `requests`  
-  - Utilizei para realizar a requisição HTTP iniciais, pois ele oferece uma forma muito simples de acessar o conteúdo.
+---
 
-- `BeautifulSoup`  
-  - Utilizei para extrair os links dos arquivos que precisavam ser baixados da página HTML, pois ele simplifica muito a busca e manipulação de dados no código HTML.
+## **Resumo do Projeto**
 
-- `asyncio`  
-  - Utilizei para trabalhar de forma assíncrona com o cliente HTTP aiohttp, assim tendo mais desempenho e eficiência em atividades que se fossem feitas de forma síncrona demorariam bastante tempo.
+### **Objetivo**
+- Realizar o download de arquivos PDF de uma página web específica.
+- Compactar os arquivos baixados em um único arquivo ZIP.
+- Automatizar o processo de coleta e organização dos arquivos.
 
-- `aiohttp`  
-  - Utilizei como cliente http para efetuar requisições HTTP de maneira assíncrona, fazendo com que aumentasse a eficiência do script usando paralelismo.
+### **Destaques**
+- **Extração de Links:** Uso do `BeautifulSoup` para localizar e filtrar os links dos arquivos na página HTML.
+- **Execução Assíncrona:** Uso de `asyncio` e `aiohttp` para realizar downloads simultâneos, otimizando o tempo de execução.
+- **Compactação:** Geração de um arquivo ZIP contendo os PDFs baixados.
+- **Automação Completa:** Processo automatizado para acessar a página, baixar os arquivos e compactá-los.
 
-- `zipfile`  
-  - Utilizei para compactar os arquivos baixados em um arquivo ZIP.
-## Passos para executar o script
-1. Instale as dependências do projeto com o comando:  
+---
+
+## **Etapas do Projeto**
+
+### **1. Extração de Links**
+Os links dos arquivos PDF são extraídos da página HTML utilizando o `BeautifulSoup`. Apenas os links que atendem aos filtros especificados são selecionados.
+
+### **2. Download Assíncrono**
+Os arquivos PDF são baixados de forma assíncrona utilizando `aiohttp` e `asyncio`, permitindo maior eficiência e paralelismo.
+
+### **3. Compactação dos Arquivos**
+Os arquivos baixados são compactados em um único arquivo ZIP utilizando a biblioteca `zipfile`.
+
+---
+
+## **Execução do Script**
+
+### **1. Instalação de Dependências**
+Instale as dependências do projeto com o comando:
 ```bash
 pip install -r requirements.txt
 ```
-2. Execute o script com o comando:  
+
+### **2. Execução**
+Execute o script principal com o comando:
 ```bash
 python web_scrapping.py
 ```
-3. Aguarde o script baixar os arquivos e compactar em um arquivo ZIP.
-4. Verifique o arquivo ZIP gerado na pasta do projeto.
-5. Pronto, você baixou os arquivos da página e compactou em um arquivo ZIP.
 
-## Como o script funciona
-1. O script faz uma requisição HTTP para a página que contém os links dos arquivos que precisam ser baixados.
-```python
-def obter_html(url):
-    resposta = requests.get(url)
-    return resposta.text
-```
+### **3. Resultado**
+- O script irá gerar um arquivo ZIP contendo os PDFs baixados.
+- O arquivo ZIP será salvo na pasta do projeto com o nome especificado no script.
 
-2. O script utiliza o BeautifulSoup para extrair os links dos arquivos que precisam ser baixados.
+---
+
+## **Como o Script Funciona**
+
+### **1. Extração de Links**
+O script faz uma requisição HTTP para a página e utiliza o `BeautifulSoup` para localizar os links dos arquivos:
 ```python
 def obter_links_do_html(filtros, html):
     soup = BeautifulSoup(html, 'html.parser')
@@ -58,16 +73,9 @@ def obter_links_do_html(filtros, html):
     return links_filtrados
 ```
 
-3. O script utiliza o asyncio e o aiohttp para fazer as requisições HTTP de forma assíncrona e paralela.
+### **2. Download Assíncrono**
+Os arquivos são baixados de forma assíncrona utilizando `aiohttp`:
 ```python
-async def carregar_arquivo(session, link):
-    async with session.get(link['link']) as resposta:
-        conteudo = await resposta.read()
-        return {
-            'titulo': link['titulo'],
-            'arquivo': conteudo
-        }
-
 async def carregar_arquivos_de_links(links):
     arquivos = []
     async with aiohttp.ClientSession() as session:
@@ -76,7 +84,9 @@ async def carregar_arquivos_de_links(links):
         arquivos.extend(resultados)
     return arquivos
 ```
-4. O script utiliza o zipfile para compactar os arquivos baixados em um arquivo ZIP.
+
+### **3. Compactação dos Arquivos**
+Os arquivos baixados são compactados em um arquivo ZIP:
 ```python
 def armazenar_em_zip(arquivos, nome):
     with zipfile.ZipFile(f'{nome}', 'w') as arquivo_zip:
@@ -85,7 +95,8 @@ def armazenar_em_zip(arquivos, nome):
             arquivo_zip.writestr(nome_arquivo, arquivo['arquivo'])
 ```
 
-5. O script principal coordena todas as etapas e exibe o caminho do arquivo ZIP gerado.
+### **4. Coordenação do Processo**
+O script principal coordena todas as etapas e exibe o caminho do arquivo ZIP gerado:
 ```python
 async def __main__():
     url = 'https://www.gov.br/ans/pt-br/acesso-a-informacao/participacao-da-sociedade/atualizacao-do-rol-de-procedimentos'
@@ -100,9 +111,24 @@ async def __main__():
     armazenar_em_zip(arquivos, nome_arquivo_zip)
     caminho_completo = os.path.abspath(f'{nome_arquivo_zip}')
     print(f'Processo de web scrapping finalizado com sucesso! Arquivos baixados e armazenados no arquivo zip {caminho_completo}')
-
-if __name__ == "__main__":
-    print('Iniciando o processo de web scrapping...')
-    asyncio.run(__main__())
 ```
 
+---
+
+## **Estrutura do Projeto**
+```
+etapa_web_scrapping/
+├── web_scrapping.py
+├── requirements.txt
+└── README.md
+```
+
+---
+
+## **Destaques Técnicos**
+- **Execução Assíncrona:** Uso de `asyncio` e `aiohttp` para downloads simultâneos, otimizando o tempo de execução.
+- **Extração de Links:** Uso do `BeautifulSoup` para localizar e filtrar links de forma eficiente.
+- **Compactação:** Geração de arquivos compactados para facilitar o armazenamento e compartilhamento.
+- **Automação Completa:** Processo automatizado para acessar a página, baixar os arquivos e compactá-los.
+
+---

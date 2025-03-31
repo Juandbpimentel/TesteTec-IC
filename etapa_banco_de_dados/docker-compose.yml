@@ -1,0 +1,20 @@
+services:
+  postgres:
+    build: ./database
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: senhasegura
+      POSTGRES_DB: testetec-ic
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/scripts:/docker-entrypoint-initdb.d
+    deploy:
+      resources:
+        limits:
+          cpus: "8.0"
+          memory: 8G
+
+volumes:
+  postgres_data:
