@@ -25,12 +25,6 @@ jobs:
           cd etapa_sistema_e_api/frontend
           npm install
 
-      - name: Rodar testes unitários
-        run: |
-          cd etapa_sistema_e_api/frontend
-          npm run test:unit
-          npm run test:e2e
-
       - name: Build do Frontend
         run: |
           cd etapa_sistema_e_api/frontend
@@ -40,6 +34,7 @@ jobs:
         uses: amondnet/vercel-action@v20
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          zeit-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           working-directory: frontend

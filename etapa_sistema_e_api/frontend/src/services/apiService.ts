@@ -1,7 +1,7 @@
 // src/apiService.js
 import axios from 'axios'
 
-const apiUrl = import.meta.env.VITE_API_URL || 'https://seu-backend.appspot.com'
+const apiUrl = import.meta.env.VITE_API_URL || 'https://testetec-ic.rj.r.appspot.com/'
 
 export const apiService = axios.create({
   baseURL: apiUrl,
