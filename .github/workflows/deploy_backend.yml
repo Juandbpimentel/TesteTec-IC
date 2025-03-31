@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - "etapa_sistema_e_api/backend/**"
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -20,13 +21,26 @@ jobs:
 
       - name: Instalar dependências
         run: |
-          cd backend
+          cd etapa_sistema_e_api/backend
           pip install --no-cache-dir -r requirements.txt
 
-      - name: Rodar testes
+      - name: Baixar e iniciar o Cloud SQL Auth Proxy
         run: |
           cd etapa_sistema_e_api/backend
+          wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
+          chmod +x cloud_sql_proxy
+          # Iniciar o Cloud SQL Proxy em background
+          ./cloud_sql_proxy -instances=${{ secrets.INSTANCE_CONNECTION_NAME }}=tcp:5432 -credential_file=${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} &
+          sleep 5  # Aguarda o proxy subir antes de iniciar os testes
+
+      - name: Iniciar backend e rodar testes
+        run: |
+          cd etapa_sistema_e_api/backend
+          nohup uvicorn main:app --host 0.0.0.0 --port 8080 &
+          sleep 5  # Aguarda o backend subir
           pytest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Gerar app.yaml a partir do template
         run: |
