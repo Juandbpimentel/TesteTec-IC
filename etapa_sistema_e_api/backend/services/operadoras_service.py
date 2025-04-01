@@ -68,6 +68,25 @@ def get_operadoras(
     )
 
 
+def get_operadora_by_registro(session: Session, registro_operadora: str):
+    operadora = session.query(OperadoraAtiva).options(
+        joinedload(OperadoraAtiva.demonstracoes_contabeis)
+    ).filter(OperadoraAtiva.registro_operadora == registro_operadora).first()
+
+    if operadora:
+        # Extrai apenas os IDs das demonstrações contábeis
+        demonstracoes_ids = [demonstracao.id for demonstracao in operadora.demonstracoes_contabeis]
+        
+        # Cria um dicionário com os dados da operadora
+        operadora_data = operadora.__dict__.copy()
+        operadora_data["demonstracoes_contabeis"] = demonstracoes_ids  # Substitui pela lista de IDs
+        
+        # Valida o DTO com os dados ajustados
+        return OperadoraAtivaDTO(**operadora_data)
+
+    return None
+
+
 def get_maiores_despesas_trimestre(
     session: Session,
     descricao: str,
