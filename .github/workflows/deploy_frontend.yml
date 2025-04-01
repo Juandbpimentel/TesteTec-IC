@@ -15,9 +15,6 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar npx globalmente
-        run: npm install -g npx
-
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
