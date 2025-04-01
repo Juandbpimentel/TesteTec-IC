@@ -18,7 +18,8 @@ jobs:
       - name: Configurar Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "20"
+          node-version: "18"
+
 
       - name: Instalar dependências
         run: |
@@ -37,5 +38,5 @@ jobs:
           zeit-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: frontend
+          working-directory: .
           vercel-args: '--prod'
