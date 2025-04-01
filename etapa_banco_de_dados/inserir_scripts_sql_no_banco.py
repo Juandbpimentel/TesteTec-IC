@@ -69,10 +69,12 @@ def trata_argumentos_do_script(modo_de_geracao: str, modo_de_utilizacao: str) ->
         caminho_saida_base = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "database/scripts"
         )
+        caminho_tabela = os.path.join( os.path.dirname(os.path.abspath(__file__)), "database/scripts/01-cria_tabelas.sql")
     else:
         caminho_saida_base = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "arquivos_sql_gerados"
         )
+        caminho_tabela = os.path.join( os.path.dirname(os.path.abspath(__file__)), "arquivos_sql_gerados/tabelas.sql")
 
     if modo_de_geracao == "bulk_load":
         caminho_operadoras = (
@@ -100,6 +102,7 @@ def trata_argumentos_do_script(modo_de_geracao: str, modo_de_utilizacao: str) ->
     return {
         "caminho_operadoras": caminho_operadoras,
         "caminho_demonstracoes": caminho_demonstracoes,
+        "caminho_tabela": caminho_tabela,
     }
 
 
@@ -174,6 +177,8 @@ def __main__():
     }
 
     print("Iniciando a execução dos scripts SQL...")
+    
+    executar_script_sql(configuracoes["caminho_tabela"], psycopg2.connect(**conexao_params))
 
     # Executa os scripts SQL nos diretórios configurados
     executar_scripts_sql_paralelo(

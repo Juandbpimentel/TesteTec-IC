@@ -481,12 +481,12 @@ def trata_argumentos_do_script(modo_de_geracao: str, modo_de_utilizacao: str) ->
             caminho_saida_operadoras = os.path.join(
                 caminho_saida_base, "operadoras_sem_bulk_load"
             )
-            dado_de_arquivo_operadoras = "operadoras_sem_bulk_load.sql"
+            dado_de_arquivo_operadoras = 2
 
             caminho_saida_demonstracoes = os.path.join(
                 caminho_saida_base, "demonstracoes_sem_bulk_load"
             )
-            dado_de_arquivo_demonstracoes = "demonstracoes_sem_bulk_load.sql"
+            dado_de_arquivo_demonstracoes = 3
 
     return {
         "modo_de_geracao": modo_de_geracao,
