@@ -73,16 +73,3 @@ BEGIN
     RETURN EXTRACT(YEAR FROM CURRENT_DATE) - 1;
 END;
 $$ LANGUAGE plpgsql;
-
-SELECT sum(dc.vl_saldo_final) as total_de_despesa,oi.*
-FROM operadoras_ativas oi 
-JOIN demonstracoes_contabeis dc 
-    ON oi.registro_operadora = dc.registro_operadora
-WHERE 
-    unaccent(dc.descricao) ILIKE unaccent('%EVENTOS/SINISTROS CONHECIDOS OU AVISADOS DE ASSISTÊNCIA A SAÚDE MÉDICO HOSPITALAR%')
-    AND dc.vl_saldo_final < 0
-    AND dc.trimestre = (SELECT trimestre FROM obter_trimestre_anterior())
-    AND dc.ano = (SELECT ano FROM obter_trimestre_anterior())
-GROUP BY oi.registro_operadora, dc.vl_saldo_final
-ORDER BY dc.vl_saldo_final
-LIMIT 10;

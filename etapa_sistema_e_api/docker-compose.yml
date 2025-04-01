@@ -16,5 +16,22 @@ services:
                     cpus: '4.0'
                     memory: 8G
 
+    backend:
+        build:
+            context: ./backend
+            dockerfile: ./Dockerfile.dev # Especifica o Dockerfile local
+        environment:
+            DATABASE_URL: postgresql://admin:senhasegura@postgres:5432/testetec-ic
+            CORS_ORIGIN_WHITELIST: '*'
+            LOGGING_LEVEL: DEBUG
+            LOGGING_FILE: logs.log
+            LOGGING_FORMAT: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        ports:
+            - '8080:8080'
+        depends_on:
+            - postgres
+        volumes:
+            - ./backend:/app
+
 volumes:
     postgres_data:

@@ -1,0 +1,18 @@
+FROM python:3.13-slim
+
+WORKDIR /app
+
+# Copia o requirements.txt e instala as dependências
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia o restante do código
+COPY . .
+
+EXPOSE 8080
+
+# Define a variável de ambiente para desenvolvimento
+ENV ENVIRONMENT=local
+
+# Comando para iniciar o backend
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]

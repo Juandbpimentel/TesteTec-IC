@@ -7,3 +7,4 @@ requests
 pytest
 python-dotenv
 fastapi[standard]
+logging

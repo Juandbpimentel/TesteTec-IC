@@ -87,9 +87,14 @@ def tratar_descricoes_de_demonstracoes(df: pl.DataFrame):
 
 
 def tratar_os_dados_operadoras_ativas(df: pl.DataFrame) -> pl.DataFrame:
-    return df.rename({col: para_lower_case(col) for col in df.columns}).rename(
+    df = df.rename({col: para_lower_case(col) for col in df.columns}).rename(
         {"registro_ans": "registro_operadora"}
     )
+    
+    df = df.with_columns(
+        pl.col("regiao_de_comercializacao").fill_null(0).cast(pl.Int32)
+    )
+    return df
 
 
 def trata_os_dados_demonstracoes_contabeis(dados: list[dict]) -> pl.DataFrame:
@@ -124,6 +129,7 @@ def trata_os_dados_demonstracoes_contabeis(dados: list[dict]) -> pl.DataFrame:
             "vl_saldo_final",
         ]
         df = corrigir_valores_numericos(df, colunas_numericas)
+        
         df = tratar_descricoes_de_demonstracoes(df)
 
         dataframes.append(df)

@@ -77,6 +77,7 @@ Os dados foram tratados utilizando a biblioteca **Polars**:
 - **Conversão de tipos:** Datas no formato `DD/MM/AAAA` foram convertidas para `AAAA-MM-DD`.
 - **Formatação de textos:** Padronização de descrições e remoção de espaços desnecessários.
 - **Verificação de integridade:** Remoção de registros com operadoras inativas.
+- **Alteração de valores nulos** Inserção de 0 para valores nulos em `regiao_de_comercializacao` de operadoras_ativas. Será tratado como `Não Informado` posteriormente.
 
 ---
 
