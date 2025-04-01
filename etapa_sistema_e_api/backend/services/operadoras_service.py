@@ -9,6 +9,7 @@ from typing import List, Optional
 class OperadorasResponse(BaseModel):
     operadoras: List[OperadoraAtivaListagemDTO]
     next_cursor: Optional[str]
+    total_elementos: int
 
 def get_operadoras(
     session: Session,

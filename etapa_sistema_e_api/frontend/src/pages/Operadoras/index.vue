@@ -7,14 +7,14 @@
       <v-select v-model="selectedModalidade" :items="modalidades" label="Selecione a Modalidade" outlined dense />
     </div>
 
-    <CustomDataTable :row-data="operadoras" :column-defs="baseColumnDefs" @view-details="handleViewDetails"
-      :total-items="totalOperadoras" :items-per-page="pagination.limit" :current-page="pagination.page"
-      @page-change="handlePageChange" />
+    <CustomDataTable :row-data="operadoras" :column-defs="baseColumnDefs" :total-items="totalOperadoras"
+      :items-per-page="pagination.limit" :current-page="pagination.page" @page-change="handlePageChange"
+      @view-details="handleViewDetails" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import CustomDataTable from '@/components/CustomDataTable.vue';
 import { fetchOperadoras, fetchUfs, fetchModalidades } from '@/services/apiService';
 import { useRouter } from 'vue-router';
@@ -27,12 +27,14 @@ const ufs = ref([]);
 const modalidades = ref([]);
 const selectedUf = ref(null);
 const selectedModalidade = ref(null);
-const totalOperadoras = ref(0); // Novo estado para o total de operadoras
-const pagination = ref({ // Estado para a paginação
+const totalOperadoras = ref(0);
+
+const pagination = ref({
   limit: 20,
   page: 1,
+  // O índice 0 (primeira página) não tem cursor (null)
+  cursors: [null]
 });
-const startCursor = ref(null);
 
 const baseColumnDefs = ref([
   { headerName: 'Registro Operadora', field: 'registro_operadora', sortable: true, filter: true },
@@ -47,18 +49,26 @@ const baseColumnDefs = ref([
 
 const loadOperadoras = async (params = {}) => {
   try {
-    // Adiciona os parâmetros de paginação à requisição
+    // Usa o cursor da página atual (página - 1 pois o array inicia com índice 0)
+    const start_cursor = pagination.value.cursors[pagination.value.page - 1];
     const requestParams = {
       ...params,
       limit: pagination.value.limit,
-      start_cursor: startCursor.value,
+      start_cursor
     };
 
     const { data } = await fetchOperadoras(requestParams);
-    console.log('Operadoras recebidas no pai:', data.operadoras);
+    console.log('Response recebida:', data);
     if (Array.isArray(data.operadoras)) {
       operadoras.value = data.operadoras;
-      totalOperadoras.value = data.total; // Atualiza o total de operadoras
+      totalOperadoras.value = data.total_elementos;
+
+      // Atualiza o array de cursores: se avançando para uma nova página, armazena o cursor retornado
+      if (pagination.value.cursors.length < pagination.value.page + 1) {
+        pagination.value.cursors.push(data.next_cursor);
+      } else {
+        pagination.value.cursors[pagination.value.page] = data.next_cursor;
+      }
     } else {
       console.error('Dados inválidos recebidos:', data);
       operadoras.value = [];
@@ -84,11 +94,18 @@ const loadFilters = async () => {
   }
 };
 
-watch([selectedUf, selectedModalidade], ([newUf, newModalidade]) => {
+const fetchOperadorasWithFilters = (uf, modalidade) => {
   const params = {};
-  if (newUf) params.uf = newUf;
-  if (newModalidade) params.modalidade = newModalidade;
+  if (uf) params.uf = uf;
+  if (modalidade) params.modalidade = modalidade;
+  // Reseta a paginação ao alterar os filtros
+  pagination.value.page = 1;
+  pagination.value.cursors = [null];
   loadOperadoras(params);
+};
+
+watch([selectedUf, selectedModalidade], ([newUf, newModalidade]) => {
+  fetchOperadorasWithFilters(newUf, newModalidade);
 });
 
 onMounted(async () => {
@@ -106,17 +123,25 @@ const handleViewDetails = (operadoraData) => {
   }
 };
 
-const handlePageChange = (newPage) => {
-  console.log('Nova página:', newPage);
-  pagination.value.page = newPage;
-  // Calcula o novo start_cursor com base na página e no limite.
-  // start_cursor é um exemplo, ajuste conforme a API do backend
-  startCursor.value = (newPage - 1) * pagination.value.limit;
+const handlePageChange = (payload) => {
+  // O payload pode ser um número (nova página) ou um objeto { page, itemsPerPage }
+  if (typeof payload === 'number') {
+    pagination.value.page = payload;
+  } else if (typeof payload === 'object') {
+    // Ao alterar o número de itens por página, reiniciamos a paginação
+    pagination.value.limit = payload.itemsPerPage;
+    pagination.value.page = payload.page;
+    pagination.value.cursors = [null];
+  }
   loadOperadoras({
     uf: selectedUf.value,
     modalidade: selectedModalidade.value,
   });
 };
+
+const totalPages = computed(() => {
+  return Math.ceil(totalOperadoras.value / pagination.value.limit);
+});
 </script>
 
 <style scoped>

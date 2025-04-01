@@ -38,7 +38,7 @@ def read_operadoras(
     Lista operadoras com paginação baseada em cursor e filtros opcionais.
     """
     try:
-        operadoras_dto = get_operadoras(
+        operadoras_response = get_operadoras(
             session=session,
             limit=limit,
             start_cursor=start_cursor,
@@ -50,8 +50,13 @@ def read_operadoras(
             cidade=cidade,
             uf=uf,
         )
-        next_cursor = operadoras_dto[-1].registro_operadora if operadoras_dto else None
-        return OperadorasResponse(operadoras=operadoras_dto, next_cursor=next_cursor)
+        # Acessar o atributo `operadoras` para determinar o próximo cursor
+        next_cursor = operadoras_response.operadoras[-1].registro_operadora if operadoras_response.operadoras else None
+        return OperadorasResponse(
+            operadoras=operadoras_response.operadoras,
+            next_cursor=next_cursor,
+            total_elementos=operadoras_response.total_elementos,
+        )
     except Exception as e:
         raise ErrorResponse(500, f"Erro ao listar operadoras: {str(e)}")
 
