@@ -43,7 +43,7 @@ jobs:
 
             - name: Criar arquivo de credenciais do Google Cloud
               run: |
-                  echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" > etapa_sistema_e_api/backend/credentials.json
+                echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" | base64 --decode > etapa_sistema_e_api/backend/credentials.json
 
             - name: Baixar e iniciar o Cloud SQL Proxy v2
               run: |
