@@ -72,6 +72,7 @@ jobs:
 
             - name: Deploy para App Engine
               run: |
+                  cd etapa_sistema_e_api/backend
                   mv Dockerfile.prod Dockerfile
                   gcloud app deploy app.yaml --quiet
                   rm Dockerfile
