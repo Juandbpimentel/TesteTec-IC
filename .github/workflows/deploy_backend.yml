@@ -10,7 +10,7 @@ on:
 jobs:
     build-deploy:
         runs-on: ubuntu-latest
-        env: # Define as variáveis de ambiente no nível do job
+        env:
             DATABASE_URL: ${{ secrets.DATABASE_URL }}
             CORS_ORIGIN_WHITELIST: ${{ secrets.CORS_ORIGIN_WHITELIST }}
             LOGGING_LEVEL: ${{ secrets.LOGGING_LEVEL }}
@@ -24,12 +24,12 @@ jobs:
             - name: Configurar autenticação no Google Cloud
               uses: google-github-actions/auth@v1
               with:
-                  credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} # Usa a variável de ambiente diretamente
+                  credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
 
             - name: Configurar o SDK do Google Cloud
               uses: google-github-actions/setup-gcloud@v1
               with:
-                  project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT }} # Usa a variável de ambiente diretamente
+                  project_id: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
 
             - name: Configurar Python
               uses: actions/setup-python@v3
@@ -43,13 +43,14 @@ jobs:
 
             - name: Criar arquivo de credenciais do Google Cloud
               run: |
-                echo "${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}" | base64 --decode > etapa_sistema_e_api/backend/credentials.json
+                  echo '${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}' > etapa_sistema_e_api/backend/credentials.json
 
             - name: Baixar e iniciar o Cloud SQL Proxy v2
               run: |
                   cd etapa_sistema_e_api/backend
                   wget https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 -O cloud_sql_proxy
                   chmod +x cloud_sql_proxy
+                  # Iniciar o Cloud SQL Proxy em background com bind address configurado na string de conexão
                   ./cloud_sql_proxy -instances=${{ secrets.INSTANCE_CONNECTION_NAME }}=tcp:0.0.0.0:5432 -credential_file=credentials.json &
                   sleep 5  # Aguarda o proxy subir antes de iniciar os testes
 
@@ -59,15 +60,17 @@ jobs:
                   nohup uvicorn main:app --host 0.0.0.0 --port 8080 &
                   sleep 15  # Aguarda o backend subir
                   pytest
+              env:
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
             - name: Gerar app.yaml a partir do template
               run: |
                   cd etapa_sistema_e_api/backend
                   envsubst < app.yaml.template > app.yaml
+              env:
+                  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
             - name: Deploy para App Engine
               run: |
                   cd etapa_sistema_e_api/backend
-                  mv Dockerfile.prod Dockerfile
                   gcloud app deploy app.yaml --quiet
-                  rm Dockerfile
