@@ -16,9 +16,6 @@ jobs:
             LOGGING_LEVEL: ${{ secrets.LOGGING_LEVEL }}
             LOGGING_FILE: ${{ secrets.LOGGING_FILE }}
             LOGGING_FORMAT: ${{ secrets.LOGGING_FORMAT }}
-            GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-            GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
-            INSTANCE_CONNECTION_NAME: ${{ secrets.INSTANCE_CONNECTION_NAME }}
 
         steps:
             - name: Checkout do código
