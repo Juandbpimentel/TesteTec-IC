@@ -21,58 +21,51 @@ def get_operadoras(
     start_cursor: Optional[str],
     cidade: Optional[str],
     uf: Optional[str]
-) -> List[OperadoraAtivaListagemDTO]:
+) -> OperadorasResponse:
     """
     Retorna uma lista de operadoras com paginação e filtros opcionais.
     """
-    query = session.query(OperadoraAtiva).order_by(OperadoraAtiva.registro_operadora)
+    # Base da consulta
+    base_query = session.query(OperadoraAtiva)
 
-    # Filtro por cursor para paginação
+    # Aplicar os filtros na consulta base
     if start_cursor:
-        query = query.filter(OperadoraAtiva.registro_operadora > start_cursor)
-
-    # Filtros dinâmicos
+        base_query = base_query.filter(OperadoraAtiva.registro_operadora > start_cursor)
     if cnpj:
-        query = query.filter(func.unaccent(OperadoraAtiva.cnpj).ilike(func.unaccent(f"%{cnpj}%")))
+        base_query = base_query.filter(func.unaccent(OperadoraAtiva.cnpj).ilike(func.unaccent(f"%{cnpj}%")))
     if razao_social:
-        query = query.filter(func.unaccent(OperadoraAtiva.razao_social).ilike(func.unaccent(f"%{razao_social}%")))
+        base_query = base_query.filter(func.unaccent(OperadoraAtiva.razao_social).ilike(func.unaccent(f"%{razao_social}%")))
     if nome_fantasia:
-        query = query.filter(func.unaccent(OperadoraAtiva.nome_fantasia).ilike(func.unaccent(f"%{nome_fantasia}%")))
+        base_query = base_query.filter(func.unaccent(OperadoraAtiva.nome_fantasia).ilike(func.unaccent(f"%{nome_fantasia}%")))
     if modalidade:
-        query = query.filter(func.unaccent(OperadoraAtiva.modalidade).ilike(func.unaccent(f"%{modalidade}%")))
+        base_query = base_query.filter(func.unaccent(OperadoraAtiva.modalidade).ilike(func.unaccent(f"%{modalidade}%")))
     if regiao_de_comercializacao:
-        query = query.filter(OperadoraAtiva.regiao_de_comercializacao == regiao_de_comercializacao)
+        base_query = base_query.filter(OperadoraAtiva.regiao_de_comercializacao == regiao_de_comercializacao)
     if cidade:
-        query = query.filter(func.unaccent(OperadoraAtiva.cidade).ilike(func.unaccent(f"%{cidade}%")))
+        base_query = base_query.filter(func.unaccent(OperadoraAtiva.cidade).ilike(func.unaccent(f"%{cidade}%")))
     if uf:
-        query = query.filter(func.unaccent(OperadoraAtiva.uf).ilike(func.unaccent(f"%{uf}%")))
+        base_query = base_query.filter(func.unaccent(OperadoraAtiva.uf).ilike(func.unaccent(f"%{uf}%")))
 
-    # Limitação de resultados
+    # Calcular o total de elementos com os filtros aplicados
+    total_elementos = base_query.count()
+
+    # Aplicar ordenação e limite para a consulta principal
+    query = base_query.order_by(OperadoraAtiva.registro_operadora)
     if limit > 0:
         query = query.limit(limit)
 
-    # Executa a consulta e retorna os resultados
+    # Obter os registros
     operadoras = query.all()
-    return [OperadoraAtivaListagemDTO.model_validate(op) for op in operadoras]
 
+    # Determinar o próximo cursor
+    next_cursor = operadoras[-1].registro_operadora if len(operadoras) == limit else None
 
-def get_operadora_by_registro(session: Session, registro_operadora: str):
-    operadora = session.query(OperadoraAtiva).options(
-        joinedload(OperadoraAtiva.demonstracoes_contabeis)
-    ).filter(OperadoraAtiva.registro_operadora == registro_operadora).first()
-
-    if operadora:
-        # Extrai apenas os IDs das demonstrações contábeis
-        demonstracoes_ids = [demonstracao.id for demonstracao in operadora.demonstracoes_contabeis]
-        
-        # Cria um dicionário com os dados da operadora
-        operadora_data = operadora.__dict__.copy()
-        operadora_data["demonstracoes_contabeis"] = demonstracoes_ids  # Substitui pela lista de IDs
-        
-        # Valida o DTO com os dados ajustados
-        return OperadoraAtivaDTO(**operadora_data)
-
-    return None
+    # Retornar a resposta
+    return OperadorasResponse(
+        operadoras=[OperadoraAtivaListagemDTO.model_validate(op) for op in operadoras],
+        next_cursor=next_cursor,
+        total_elementos=total_elementos
+    )
 
 
 def get_maiores_despesas_trimestre(

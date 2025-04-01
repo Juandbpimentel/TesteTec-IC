@@ -9,6 +9,7 @@ from typing import List, Optional
 class DemonstracoesResponse(BaseModel):
     demonstracoes: List[DemonstracaoContabilListagemDTO]
     next_cursor: Optional[int]
+    total_elementos: int
 
 def get_demonstracoes(
     session: Session,
@@ -18,26 +19,42 @@ def get_demonstracoes(
     ano: Optional[int],
     descricao: Optional[str],
     registro_operadora: Optional[str],
-) -> List[DemonstracaoContabilListagemDTO]:
-    query = session.query(DemonstracaoContabil).order_by(DemonstracaoContabil.id)
+) -> DemonstracoesResponse:
+    # Base da consulta
+    base_query = session.query(DemonstracaoContabil)
 
+    # Aplicar os filtros na consulta base
     if start_cursor:
-        query = query.filter(DemonstracaoContabil.id > start_cursor)
-
+        base_query = base_query.filter(DemonstracaoContabil.id > start_cursor)
     if trimestre:
-        query = query.filter(DemonstracaoContabil.trimestre == trimestre)
+        base_query = base_query.filter(DemonstracaoContabil.trimestre == trimestre)
     if ano:
-        query = query.filter(DemonstracaoContabil.ano == ano)
+        base_query = base_query.filter(DemonstracaoContabil.ano == ano)
     if descricao:
-        query = query.filter(func.unaccent(DemonstracaoContabil.descricao).ilike(func.unaccent(f"%{descricao}%")))
+        base_query = base_query.filter(func.unaccent(DemonstracaoContabil.descricao).ilike(func.unaccent(f"%{descricao}%")))
     if registro_operadora:
-        query = query.filter(DemonstracaoContabil.registro_operadora == registro_operadora)
+        base_query = base_query.filter(DemonstracaoContabil.registro_operadora == registro_operadora)
 
+    # Calcular o total de elementos com os filtros aplicados
+    total_elementos = base_query.count()
+
+    # Aplicar ordenação e limite para a consulta principal
+    query = base_query.order_by(DemonstracaoContabil.id)
     if limit > 0:
         query = query.limit(limit)
 
+    # Obter os registros
     demonstracoes = query.all()
-    return [DemonstracaoContabilListagemDTO.model_validate(demo) for demo in demonstracoes]
+
+    # Determinar o próximo cursor
+    next_cursor = demonstracoes[-1].id if len(demonstracoes) == limit else None
+
+    # Retornar a resposta
+    return DemonstracoesResponse(
+        demonstracoes=[DemonstracaoContabilListagemDTO.model_validate(demo) for demo in demonstracoes],
+        next_cursor=next_cursor,
+        total_elementos=total_elementos
+    )
 
 def get_demonstracao_by_id(session: Session, id: int) -> Optional[DemonstracaoContabilDTO]:
     """

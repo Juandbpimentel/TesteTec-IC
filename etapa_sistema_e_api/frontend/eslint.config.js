@@ -18,6 +18,10 @@ export default [
   {
     rules: {
       'vue/multi-word-component-names': 'off',
+      'vue/first-attribute-linebreak': 'off',
+      'vue/max-attributes-per-line': 'off',
+      'vue/html-closing-bracket-newline': 'off',
+      'vue/html-indent': 'off'
     },
   }
 ]
