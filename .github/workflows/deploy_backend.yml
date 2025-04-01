@@ -27,7 +27,7 @@ jobs:
             - name: Configurar autenticação no Google Cloud
               uses: google-github-actions/auth@v1
               with:
-                  credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}} # Usa a variável de ambiente diretamente
+                  credentials_json: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} # Usa a variável de ambiente diretamente
 
             - name: Configurar o SDK do Google Cloud
               uses: google-github-actions/setup-gcloud@v1
