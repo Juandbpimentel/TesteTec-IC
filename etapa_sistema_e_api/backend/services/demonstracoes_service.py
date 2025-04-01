@@ -24,8 +24,6 @@ def get_demonstracoes(
     base_query = session.query(DemonstracaoContabil)
 
     # Aplicar os filtros na consulta base
-    if start_cursor:
-        base_query = base_query.filter(DemonstracaoContabil.id > start_cursor)
     if trimestre:
         base_query = base_query.filter(DemonstracaoContabil.trimestre == trimestre)
     if ano:
@@ -35,8 +33,10 @@ def get_demonstracoes(
     if registro_operadora:
         base_query = base_query.filter(DemonstracaoContabil.registro_operadora == registro_operadora)
 
-    # Calcular o total de elementos com os filtros aplicados
     total_elementos = base_query.count()
+    # Calcular o total de elementos com os filtros aplicados
+    if start_cursor:
+        base_query = base_query.filter(DemonstracaoContabil.id > start_cursor)
 
     # Aplicar ordenação e limite para a consulta principal
     query = base_query.order_by(DemonstracaoContabil.id)

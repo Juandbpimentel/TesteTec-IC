@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 const api = axios.create({
@@ -9,9 +8,9 @@ const api = axios.create({
 });
 
 // Função para buscar operadoras com filtros e paginação
-export const fetchOperadoras = async (params = {}) => {
+export const fetchOperadoras = async (params = {}, options = {}) => {
   try {
-    const response = await api.get('/operadoras/', { params });
+    const response = await api.get('/operadoras/', { params, ...options });
     return response;
   } catch (error) {
     console.error('Erro ao buscar operadoras:', error);
@@ -20,9 +19,9 @@ export const fetchOperadoras = async (params = {}) => {
 };
 
 // Função para buscar as 10 operadoras com maiores despesas no trimestre
-export const fetchMaioresDespesasTrimestre = async (params = {}) => {
+export const fetchMaioresDespesasTrimestre = async (params = {}, options = {}) => {
   try {
-    const response = await api.get('/operadoras/maiores_despesas_trimestre', { params });
+    const response = await api.get('/operadoras/maiores_despesas_trimestre', { params, ...options });
     return response;
   } catch (error) {
     console.error('Erro ao buscar maiores despesas no trimestre:', error);
@@ -31,9 +30,9 @@ export const fetchMaioresDespesasTrimestre = async (params = {}) => {
 };
 
 // Função para buscar as 10 operadoras com maiores despesas no ano
-export const fetchMaioresDespesasAno = async (params = {}) => {
+export const fetchMaioresDespesasAno = async (params = {}, options = {}) => {
   try {
-    const response = await api.get('/operadoras/maiores_despesas_ano', { params });
+    const response = await api.get('/operadoras/maiores_despesas_ano', { params, ...options });
     return response;
   } catch (error) {
     console.error('Erro ao buscar maiores despesas no ano:', error);
@@ -42,9 +41,9 @@ export const fetchMaioresDespesasAno = async (params = {}) => {
 };
 
 // Função para buscar UFs distintas
-export const fetchUfs = async () => {
+export const fetchUfs = async (options = {}) => {
   try {
-    const response = await api.get('/operadoras/select_ufs');
+    const response = await api.get('/operadoras/select_ufs', options);
     return response;
   } catch (error) {
     console.error('Erro ao buscar UFs:', error);
@@ -53,9 +52,9 @@ export const fetchUfs = async () => {
 };
 
 // Função para buscar modalidades distintas
-export const fetchModalidades = async () => {
+export const fetchModalidades = async (options = {}) => {
   try {
-    const response = await api.get('/operadoras/select_modalidades');
+    const response = await api.get('/operadoras/select_modalidades', options);
     return response;
   } catch (error) {
     console.error('Erro ao buscar modalidades:', error);
@@ -64,9 +63,9 @@ export const fetchModalidades = async () => {
 };
 
 // Função para buscar uma operadora pelo registro
-export const fetchOperadoraByRegistro = async (registroOperadora) => {
+export const fetchOperadoraByRegistro = async (registroOperadora, options = {}) => {
   try {
-    const response = await api.get(`/operadoras/${registroOperadora}`);
+    const response = await api.get(`/operadoras/${registroOperadora}`, options);
     return response;
   } catch (error) {
     console.error(`Erro ao buscar operadora com registro ${registroOperadora}:`, error);
@@ -75,9 +74,9 @@ export const fetchOperadoraByRegistro = async (registroOperadora) => {
 };
 
 // Função para buscar demonstrações contábeis com filtros e paginação
-export const fetchDemonstracoes = async (params = {}) => {
+export const fetchDemonstracoes = async (params = {}, options = {}) => {
   try {
-    const response = await api.get('/demonstracoes/', { params });
+    const response = await api.get('/demonstracoes/', { params, ...options });
     return response;
   } catch (error) {
     console.error('Erro ao buscar demonstrações contábeis:', error);
@@ -86,9 +85,9 @@ export const fetchDemonstracoes = async (params = {}) => {
 };
 
 // Função para buscar descrições distintas das demonstrações contábeis
-export const fetchDescricoesDemonstracoes = async () => {
+export const fetchDescricoesDemonstracoes = async (options = {}) => {
   try {
-    const response = await api.get('/demonstracoes/select_descricoes');
+    const response = await api.get('/demonstracoes/select_descricoes', options);
     return response;
   } catch (error) {
     console.error('Erro ao buscar descrições das demonstrações contábeis:', error);
@@ -97,9 +96,9 @@ export const fetchDescricoesDemonstracoes = async () => {
 };
 
 // Função para buscar trimestres e anos distintos das demonstrações contábeis
-export const fetchTrimestresEAnos = async () => {
+export const fetchTrimestresEAnos = async (options = {}) => {
   try {
-    const response = await api.get('/demonstracoes/select_trimestres_e_anos');
+    const response = await api.get('/demonstracoes/select_trimestres_e_anos', options);
     return response;
   } catch (error) {
     console.error('Erro ao buscar trimestres e anos das demonstrações contábeis:', error);
@@ -108,9 +107,9 @@ export const fetchTrimestresEAnos = async () => {
 };
 
 // Função para buscar uma demonstração contábil pelo ID
-export const fetchDemonstracaoById = async (id) => {
+export const fetchDemonstracaoById = async (id, options = {}) => {
   try {
-    const response = await api.get(`/demonstracoes/${id}`);
+    const response = await api.get(`/demonstracoes/${id}`, options);
     return response;
   } catch (error) {
     console.error(`Erro ao buscar demonstração contábil com ID ${id}:`, error);

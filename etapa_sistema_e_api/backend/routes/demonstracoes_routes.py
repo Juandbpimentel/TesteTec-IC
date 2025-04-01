@@ -31,11 +31,16 @@ def read_demonstracoes(
     Lista demonstrações contábeis com paginação baseada em cursor e filtros opcionais.
     """
     try:
-        demonstracoes_dto = get_demonstracoes(
+        demonstracoes_response = get_demonstracoes(
             session, limit, start_cursor, trimestre, ano, descricao, registro_operadora
         )
-        next_cursor = demonstracoes_dto[-1].id if demonstracoes_dto else None
-        return DemonstracoesResponse(demonstracoes=demonstracoes_dto, next_cursor=next_cursor)
+        # Acessar o atributo `demonstracoes` para determinar o próximo cursor
+        next_cursor = demonstracoes_response.demonstracoes[-1].id if demonstracoes_response.demonstracoes else None
+        return DemonstracoesResponse(
+            demonstracoes=demonstracoes_response.demonstracoes,
+            next_cursor=next_cursor,
+            total_elementos=demonstracoes_response.total_elementos,
+        )
     except Exception as e:
         raise ErrorResponse(500, f"Erro ao listar demonstrações contábeis: {str(e)}")
 

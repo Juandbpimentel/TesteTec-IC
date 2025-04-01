@@ -14,6 +14,7 @@ class OperadorasResponse(BaseModel):
 def get_operadoras(
     session: Session,
     limit: int,
+    registro_operadora: Optional[str],
     cnpj: Optional[str],
     razao_social: Optional[str],
     nome_fantasia: Optional[str],
@@ -30,8 +31,8 @@ def get_operadoras(
     base_query = session.query(OperadoraAtiva)
 
     # Aplicar os filtros na consulta base
-    if start_cursor:
-        base_query = base_query.filter(OperadoraAtiva.registro_operadora > start_cursor)
+    if registro_operadora:
+        base_query = base_query.filter(func.unaccent(OperadoraAtiva.registro_operadora).ilike(func.unaccent(f"%{registro_operadora}%")))
     if cnpj:
         base_query = base_query.filter(func.unaccent(OperadoraAtiva.cnpj).ilike(func.unaccent(f"%{cnpj}%")))
     if razao_social:
@@ -46,9 +47,12 @@ def get_operadoras(
         base_query = base_query.filter(func.unaccent(OperadoraAtiva.cidade).ilike(func.unaccent(f"%{cidade}%")))
     if uf:
         base_query = base_query.filter(func.unaccent(OperadoraAtiva.uf).ilike(func.unaccent(f"%{uf}%")))
-
-    # Calcular o total de elementos com os filtros aplicados
+    
     total_elementos = base_query.count()
+
+    if start_cursor:
+        base_query = base_query.filter(OperadoraAtiva.registro_operadora > start_cursor)
+    # Calcular o total de elementos com os filtros aplicados
 
     # Aplicar ordenação e limite para a consulta principal
     query = base_query.order_by(OperadoraAtiva.registro_operadora)

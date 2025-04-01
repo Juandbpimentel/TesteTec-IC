@@ -11,7 +11,16 @@ import { routes } from 'vue-router/auto-routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: setupLayouts(routes),
+  routes: setupLayouts([
+    // Rotas automáticas
+    ...routes,
+
+    // Rota manual para o detalhe
+    {
+      path: '/operadoras/:registro_operadora',
+      component: () => import('@/pages/Operadoras/[registro_operadora].vue'),
+    }
+  ]),
 })
 
 // Workaround for https://github.com/vitejs/vite/issues/11804

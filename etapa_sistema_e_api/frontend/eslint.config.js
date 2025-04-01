@@ -21,7 +21,8 @@ export default [
       'vue/first-attribute-linebreak': 'off',
       'vue/max-attributes-per-line': 'off',
       'vue/html-closing-bracket-newline': 'off',
-      'vue/html-indent': 'off'
+      'vue/html-indent': 'off',
+      'vue/valid-v-slot': 'off'
     },
   }
 ]
