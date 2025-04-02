@@ -1,5 +1,5 @@
 runtime: python
-instance_class: B1
+env: flex
 
 automatic_scaling:
   min_idle_instances: 0
