@@ -13,6 +13,10 @@ Em cada etapa terá um documento Readme como este explicando o que foi feito e c
 
 Usando os links de referência acima você pode acessar diretamente a etapa desejada e visualizar o que foi feito nela.
 
+## Site do Projeto de API Final
+- **Frontend:** [https://teste-tec-ic.vercel.app/](https://teste-tec-ic.vercel.app/)
+- **Backend (Documentação):** [https://testetec-ic.rj.r.appspot.com/docs](https://testetec-ic.rj.r.appspot.com/docs)
+
 ## Observações Finais
 
 Obrigado pela oportunidade de participar do processo seletivo, espero que gostem do que foi feito e que possamos trabalhar juntos em breve.
