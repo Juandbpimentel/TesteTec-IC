@@ -2,9 +2,9 @@ import pytest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from services.operadoras_service import OperadorasResponse
-from app import app
+from app import fastapi_app
 
-client = TestClient(app)
+client = TestClient(fastapi_app)
 
 
 @patch("routes.operadoras_routes.get_operadoras")

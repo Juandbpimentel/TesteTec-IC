@@ -2,9 +2,9 @@ import pytest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from services.demonstracoes_service import DemonstracoesResponse
-from app import app
+from app import fastapi_app
 
-client = TestClient(app)
+client = TestClient(fastapi_app)
 
 @patch("routes.demonstracoes_routes.get_demonstracoes")
 def test_read_demonstracoes(mock_get_demonstracoes):
