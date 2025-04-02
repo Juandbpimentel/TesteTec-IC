@@ -2,10 +2,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from google.cloud.sql.connector import Connector
+
 import os
 
 
-
+load_dotenv()
 # URL de conexão padrão
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgresjuandbpimentel@localhost:5432/postgres")
 INSTANCE_CONNECTION_NAME_GCLOUD = os.getenv("INSTANCE_CONNECTION_NAME_GCLOUD", "testetec-ic:southamerica-east1:testetec-id-postgres")
