@@ -1,6 +1,6 @@
 runtime: python311
 env: standard
-entrypoint: gunicorn --bind :8080 --workers 1 --timeout 120 main:application
+entrypoint: gunicorn --bind :8080 --workers 1 --timeout 600 main:application
 
 beta_settings:
   cloud_sql_instances: testetec-ic:southamerica-east1:testetec-id-postgres
