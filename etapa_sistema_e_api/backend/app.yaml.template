@@ -1,13 +1,14 @@
-runtime: custom
-env: flex
+runtime: python39
+instance_class: B1
 
 automatic_scaling:
-    min_num_instances: 1
-    max_num_instances: 3
+  min_idle_instances: 0
+  max_instances: 2
+
 env_variables:
-    DATABASE_URL: '$DATABASE_URL'
-    SECRET_KEY: '$SECRET_KEY'
-    CORS_ORIGIN_WHITELIST: '$CORS_ORIGIN_WHITELIST'
-    LOGGING_LEVEL: '$LOGGING_LEVEL'
-    LOGGING_FILE: '$LOGGING_FILE'
-    LOGGING_FORMAT: '$LOGGING_FORMAT'
+  DATABASE_URL: "$DATABASE_URL"
+  SECRET_KEY: "$SECRET_KEY"
+  CORS_ORIGIN_WHITELIST: "$CORS_ORIGIN_WHITELIST"
+  LOGGING_LEVEL: "$LOGGING_LEVEL"
+  LOGGING_FILE: "$LOGGING_FILE"
+  LOGGING_FORMAT: "$LOGGING_FORMAT"
