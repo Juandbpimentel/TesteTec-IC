@@ -57,9 +57,9 @@ jobs:
             - name: Iniciar backend e rodar testes
               run: |
                   cd etapa_sistema_e_api/backend
-                  nohup uvicorn main:app --host 0.0.0.0 --port 8080 &
-                  sleep 15  # Aguarda o backend subir
-                  pytest
+                  nohup gunicorn --bind :8080 --workers 1 --timeout 120 main:application &
+                  sleep 20  # Aumente o tempo de espera para garantir que o servidor esteja ativo
+                  pytest tests/
               env:
                   DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
