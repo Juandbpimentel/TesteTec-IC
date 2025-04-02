@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch
 from fastapi.testclient import TestClient
 from services.operadoras_service import OperadorasResponse
-from etapa_sistema_e_api.backend.app import app
+from app import app
 
 client = TestClient(app)
 
