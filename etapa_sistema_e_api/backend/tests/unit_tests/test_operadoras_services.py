@@ -1,9 +1,10 @@
 import pytest
 from unittest.mock import MagicMock
-from services.operadoras_service import get_operadoras, get_ufs, get_modalidades
+from services.operadoras_service import get_operadoras, get_ufs, get_modalidades, OperadorasResponse
 
 def test_get_operadoras():
     session = MagicMock()
+    session.query.return_value.count.return_value = 0
     session.query.return_value.filter.return_value.all.return_value = []
     response = get_operadoras(session, limit=10, registro_operadora=None, cnpj=None, razao_social=None, nome_fantasia=None, modalidade=None, regiao_de_comercializacao=None, start_cursor=None, cidade=None, uf=None)
     assert response.operadoras == []

@@ -1,9 +1,10 @@
 import pytest
 from unittest.mock import MagicMock
-from services.demonstracoes_service import get_demonstracoes, get_descricoes, get_trimestres_e_anos
+from services.demonstracoes_service import get_demonstracoes, get_descricoes, get_trimestres_e_anos, DemonstracoesResponse
 
 def test_get_demonstracoes():
     session = MagicMock()
+    session.query.return_value.count.return_value = 0
     session.query.return_value.filter.return_value.all.return_value = []
     response = get_demonstracoes(session, limit=10, start_cursor=None, trimestre=None, ano=None, descricao=None, registro_operadora=None)
     assert response.demonstracoes == []
