@@ -16,3 +16,6 @@ Usando os links de referência acima você pode acessar diretamente a etapa dese
 ## Observações Finais
 
 Obrigado pela oportunidade de participar do processo seletivo, espero que gostem do que foi feito e que possamos trabalhar juntos em breve.
+
+## Tecnologias usadas durante o teste
+[![My Skills](https://skillicons.dev/icons?i=python,fastapi,vue,postgresql,docker,gcp,firebase,vercel&perline=4)](https://skillicons.dev)
