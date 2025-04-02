@@ -40,4 +40,4 @@ app.include_router(demonstracoes_routes.router)
 def read_root():
     return {"message": "Bem-vindo ao backend FastAPI com PostgreSQL!"}
 
-wsgi_app = WSGIMiddleware(app)
+application = WSGIMiddleware(app)
