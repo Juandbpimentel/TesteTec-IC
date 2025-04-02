@@ -11,7 +11,7 @@ Este projeto realiza o download de arquivos PDF a partir de uma página web e os
 - Compactar os arquivos baixados em um único arquivo ZIP.
 - Automatizar o processo de coleta e organização dos arquivos.
 
-### **Destaques**
+### **Objetivos Técnicos Realizados**
 - **Extração de Links:** Uso do `BeautifulSoup` para localizar e filtrar os links dos arquivos na página HTML.
 - **Execução Assíncrona:** Uso de `asyncio` e `aiohttp` para realizar downloads simultâneos, otimizando o tempo de execução.
 - **Compactação:** Geração de um arquivo ZIP contendo os PDFs baixados.
@@ -125,7 +125,7 @@ etapa_web_scrapping/
 
 ---
 
-## **Destaques Técnicos**
+## **Destaques de Práticas de Otimização**
 - **Execução Assíncrona:** Uso de `asyncio` e `aiohttp` para downloads simultâneos, otimizando o tempo de execução.
 - **Extração de Links:** Uso do `BeautifulSoup` para localizar e filtrar links de forma eficiente.
 - **Compactação:** Geração de arquivos compactados para facilitar o armazenamento e compartilhamento.

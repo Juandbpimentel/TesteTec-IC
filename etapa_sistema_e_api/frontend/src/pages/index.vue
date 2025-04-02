@@ -4,7 +4,6 @@
       Operadoras
     </h1>
 
-    <!-- Filtros de UF e Modalidade -->
     <div class="filters">
       <v-row>
         <v-col cols="12" md="3">
@@ -18,7 +17,6 @@
       </v-row>
     </div>
 
-    <!-- Filtros de busca para outras propriedades -->
     <div class="search-filters">
       <v-row>
         <v-col cols="12" md="3">
@@ -44,7 +42,6 @@
       </v-row>
     </div>
 
-    <!-- Botões de ação -->
     <div class="button-group">
       <v-btn variant="tonal" color="error" @click="clearFilters">
         Limpar Filtros
@@ -54,7 +51,6 @@
       </v-btn>
     </div>
 
-    <!-- Tabela customizada -->
     <CustomDataTable :row-data="currentPageData" :column-defs="baseColumnDefs" :total-items="totalOperadoras"
       :items-per-page="pagination.limit" :current-page="pagination.page" :loading="isLoading"
       @page-change="handlePageChange" @view-details="handleViewDetails" />
@@ -67,16 +63,13 @@ import CustomDataTable from '@/components/CustomDataTable.vue';
 import { fetchOperadoras, fetchUfs, fetchModalidades } from '@/services/apiService';
 import { useRouter } from 'vue-router';
 
-// Roteador (para navegação de detalhes)
 const router = useRouter();
 
-// Filtros iniciais
 const ufs = ref([]);
 const modalidades = ref([]);
 const selectedUf = ref(null);
 const selectedModalidade = ref(null);
 
-// Filtros de busca para outras propriedades
 const searchFilters = ref({
   registro_operadora: '',
   cnpj: '',
@@ -85,33 +78,27 @@ const searchFilters = ref({
   cidade: ''
 });
 
-// Total de operadoras conforme a API
 const totalOperadoras = ref(0);
 
-// Variável para bloquear ações enquanto a requisição está em andamento
 const isLoading = ref(false);
 
-// Configuração de paginação e armazenamento dos dados por página
 const pagination = ref({
   limit: 20,
   page: 1,
-  cursors: [null] // O índice 0 representa a 1ª página (sem cursor)
+  cursors: [null]
 });
 const pagesData = ref([]);
 
-// AbortController para cancelar requisições
 let controller = new AbortController();
 
-// Função para cancelar requisições
 const cancelarRequisicoes = () => {
   if (controller) {
     console.log('Cancelando requisições...');
-    controller.abort(); // Cancela as requisições em andamento
-    controller = new AbortController(); // Cria um novo controller para futuras requisições
+    controller.abort();
+    controller = new AbortController();
   }
 };
 
-// Definição das colunas da tabela
 const baseColumnDefs = ref([
   { headerName: 'Registro Operadora', field: 'registro_operadora', sortable: false, filter: true },
   { headerName: 'CNPJ', field: 'cnpj', sortable: false, filter: true },
@@ -123,22 +110,19 @@ const baseColumnDefs = ref([
   { headerName: 'Telefone', field: 'telefone', sortable: false, filter: true },
 ]);
 
-// Computed para obter os dados da página atual
 const currentPageData = computed(() => {
   return pagesData.value[pagination.value.page - 1] || [];
 });
 
-// Monta os parâmetros da requisição com base nos filtros
 const getRequestParams = () => {
   return {
     uf: selectedUf.value,
     modalidade: selectedModalidade.value,
     ...searchFilters.value,
-    limit: pagination.value.limit, // Importante: use o valor atual do limit
+    limit: pagination.value.limit,
   };
 };
 
-// Função para carregar uma página específica
 const loadPage = async (page, extraParams = {}) => {
   if (isLoading.value) return;
 
@@ -182,7 +166,6 @@ const loadPage = async (page, extraParams = {}) => {
   }
 };
 
-// Reinicia a listagem (ao alterar filtros ou busca)
 const resetAndLoad = async () => {
   pagesData.value = [];
   pagination.value.page = 1;
@@ -190,7 +173,6 @@ const resetAndLoad = async () => {
   await loadPage(1);
 };
 
-// Carrega os filtros iniciais (UF e Modalidades)
 const loadFilters = async () => {
   try {
     const [ufsResponse, modalidadesResponse] = await Promise.all([
@@ -204,20 +186,17 @@ const loadFilters = async () => {
   }
 };
 
-// Carregamento inicial
 onMounted(async () => {
   await loadFilters();
   await loadPage(1);
 });
 
-// Navegação para visualização de detalhes
 const handleViewDetails = (operadora) => {
   router.push({
     path: `/operadoras/${operadora.registro_operadora}`,
   });
 };
 
-// Tratamento para mudança de página ou alteração do limite
 const handlePageChange = async (payload) => {
   if (isLoading.value) return;
 

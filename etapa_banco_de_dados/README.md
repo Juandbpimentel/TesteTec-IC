@@ -11,7 +11,7 @@ Este projeto realiza a coleta, tratamento e inserção de dados em um banco Post
 - Gerar scripts SQL otimizados para inserção de dados.
 - Responder a perguntas analíticas específicas utilizando queries SQL.
 
-### **Destaques**
+### **Objetivos Técnicos Realizados**
 - **Modelagem de Dados:** Baseada no dicionário de dados da ANS.
 - **Otimização de Performance:** Uso de paralelismo, threading e concorrência para geração de scripts SQL.
 - **Flexibilidade:** Suporte a dois modos de inserção: **bulk load** (carregamento em massa) e **query simples**.
@@ -218,7 +218,7 @@ TesteTec-IC/
 
 ---
 
-## **Destaques Técnicos**
+## **Destaques de Práticas de Otimização**
 - **Otimização:** Uso de paralelismo, threading e concorrência para geração de scripts SQL.
 - **Flexibilidade:** Suporte a diferentes modos de inserção (bulk load e query simples).
 - **Programação na Nuvem:** Integração com o Firebase Storage para upload e gerenciamento de arquivos comprimidos, otimizando o carregamento de dados no banco.

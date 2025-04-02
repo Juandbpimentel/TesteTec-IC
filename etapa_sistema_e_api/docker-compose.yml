@@ -19,7 +19,7 @@ services:
     backend:
         build:
             context: ./backend
-            dockerfile: ./Dockerfile.dev # Especifica o Dockerfile local
+            dockerfile: ./Dockerfile.dev
         environment:
             DATABASE_URL: postgresql://admin:senhasegura@postgres:5432/testetec-ic
             CORS_ORIGIN_WHITELIST: '*'

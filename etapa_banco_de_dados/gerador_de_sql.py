@@ -28,14 +28,12 @@ def salva_csv(dataframe: pl.DataFrame, caminho_arquivo: str) -> bool:
 
 def copiar_arquivo(origem: str, destino: str):
     try:
-        # Lê o conteúdo do arquivo de origem
         with open(origem, "r", encoding="utf-8") as arquivo_origem:
             conteudo = arquivo_origem.read()
 
-        # Escreve o conteúdo no arquivo de destino
         os.makedirs(
             os.path.dirname(destino), exist_ok=True
-        )  # Garante que o diretório existe
+        )
         with open(destino, "w", encoding="utf-8") as arquivo_destino:
             arquivo_destino.write(conteudo)
     except Exception as e:
@@ -253,7 +251,6 @@ def processar_chunk_query_simples(
     linhas = df.to_dicts()
     comandos_sql = gerar_comandos_query_simples(linhas, tabela)
 
-    # Corrige o nome do arquivo
     caminho_arquivo_sql = os.path.join(
         caminho_base, f"{ordem_de_insercao:02d}-{idx:04d}-{tabela}.sql"
     )
@@ -439,7 +436,6 @@ def limpar_diretorio_saida(caminho_saida_base: str):
                 if os.path.isfile(caminho_arquivo):
                     os.remove(caminho_arquivo)
                 elif os.path.isdir(caminho_arquivo):
-                    # Remove subdiretórios recursivamente, se necessário
                     import shutil
 
                     shutil.rmtree(caminho_arquivo)

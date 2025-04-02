@@ -20,10 +20,8 @@ def get_demonstracoes(
     descricao: Optional[str],
     registro_operadora: Optional[str],
 ) -> DemonstracoesResponse:
-    # Base da consulta
     base_query = session.query(DemonstracaoContabil)
 
-    # Aplicar os filtros na consulta base
     if trimestre:
         base_query = base_query.filter(DemonstracaoContabil.trimestre == trimestre)
     if ano:
@@ -34,22 +32,17 @@ def get_demonstracoes(
         base_query = base_query.filter(DemonstracaoContabil.registro_operadora == registro_operadora)
 
     total_elementos = base_query.count()
-    # Calcular o total de elementos com os filtros aplicados
     if start_cursor:
         base_query = base_query.filter(DemonstracaoContabil.id > start_cursor)
 
-    # Aplicar ordenação e limite para a consulta principal
     query = base_query.order_by(DemonstracaoContabil.id)
     if limit > 0:
         query = query.limit(limit)
 
-    # Obter os registros
     demonstracoes = query.all()
 
-    # Determinar o próximo cursor
     next_cursor = demonstracoes[-1].id if len(demonstracoes) == limit else None
 
-    # Retornar a resposta
     return DemonstracoesResponse(
         demonstracoes=[DemonstracaoContabilListagemDTO.model_validate(demo) for demo in demonstracoes],
         next_cursor=next_cursor,
@@ -57,11 +50,8 @@ def get_demonstracoes(
     )
 
 def get_demonstracao_by_id(session: Session, id: int) -> Optional[DemonstracaoContabilDTO]:
-    """
-    Retorna uma demonstração contábil pelo ID, incluindo os dados da operadora associada.
-    """
     demonstracao = session.query(DemonstracaoContabil).options(
-        joinedload(DemonstracaoContabil.operadora)  # Faz o joinedload da operadora associada
+        joinedload(DemonstracaoContabil.operadora)
     ).filter(DemonstracaoContabil.id == id).first()
 
     if demonstracao:

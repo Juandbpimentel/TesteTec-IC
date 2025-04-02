@@ -59,7 +59,7 @@ const props = defineProps({
     },
     hideActions: {
         type: Boolean,
-        default: false // Por padrão, o botão "Visualizar" será exibido
+        default: false
     }
 });
 const emit = defineEmits(['view-details', 'page-change']);
@@ -121,7 +121,6 @@ const handleItemsPerPageChange = (newItemsPerPage) => {
 };
 
 onMounted(() => {
-    // Inicializações se necessárias
 });
 </script>
 
@@ -133,20 +132,16 @@ onMounted(() => {
 .pagination-container {
     display: flex;
     justify-content: center;
-    /* Alinha à direita */
     align-items: center;
     gap: 1rem;
-    /* Espaçamento entre os elementos */
     margin-top: 1rem;
 }
 
 .pagination-fixed-width {
     width: 90%;
-    /* Define o tamanho fixo de 90% */
 }
 
 .items-per-page-select {
     width: 20%;
-    /* Define o tamanho fixo de 20% */
 }
 </style>

@@ -7,7 +7,6 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Função para buscar operadoras com filtros e paginação
 export const fetchOperadoras = async (params = {}, options = {}) => {
   try {
     const response = await api.get('/operadoras/', { params, ...options });
@@ -18,7 +17,6 @@ export const fetchOperadoras = async (params = {}, options = {}) => {
   }
 };
 
-// Função para buscar as 10 operadoras com maiores despesas no trimestre
 export const fetchMaioresDespesasTrimestre = async (params = {}, options = {}) => {
   try {
     const response = await api.get('/operadoras/maiores_despesas_trimestre', { params, ...options });
@@ -29,7 +27,6 @@ export const fetchMaioresDespesasTrimestre = async (params = {}, options = {}) =
   }
 };
 
-// Função para buscar as 10 operadoras com maiores despesas no ano
 export const fetchMaioresDespesasAno = async (params = {}, options = {}) => {
   try {
     const response = await api.get('/operadoras/maiores_despesas_ano', { params, ...options });
@@ -40,7 +37,6 @@ export const fetchMaioresDespesasAno = async (params = {}, options = {}) => {
   }
 };
 
-// Função para buscar UFs distintas
 export const fetchUfs = async (options = {}) => {
   try {
     const response = await api.get('/operadoras/select_ufs', options);
@@ -51,7 +47,6 @@ export const fetchUfs = async (options = {}) => {
   }
 };
 
-// Função para buscar modalidades distintas
 export const fetchModalidades = async (options = {}) => {
   try {
     const response = await api.get('/operadoras/select_modalidades', options);
@@ -62,7 +57,6 @@ export const fetchModalidades = async (options = {}) => {
   }
 };
 
-// Função para buscar uma operadora pelo registro
 export const fetchOperadoraByRegistro = async (registroOperadora, options = {}) => {
   try {
     const response = await api.get(`/operadoras/${registroOperadora}`, options);
@@ -73,7 +67,6 @@ export const fetchOperadoraByRegistro = async (registroOperadora, options = {}) 
   }
 };
 
-// Função para buscar demonstrações contábeis com filtros e paginação
 export const fetchDemonstracoes = async (params = {}, options = {}) => {
   try {
     const response = await api.get('/demonstracoes/', { params, ...options });
@@ -84,7 +77,6 @@ export const fetchDemonstracoes = async (params = {}, options = {}) => {
   }
 };
 
-// Função para buscar descrições distintas das demonstrações contábeis
 export const fetchDescricoesDemonstracoes = async (options = {}) => {
   try {
     const response = await api.get('/demonstracoes/select_descricoes', options);
@@ -95,7 +87,6 @@ export const fetchDescricoesDemonstracoes = async (options = {}) => {
   }
 };
 
-// Função para buscar trimestres e anos distintos das demonstrações contábeis
 export const fetchTrimestresEAnos = async (options = {}) => {
   try {
     const response = await api.get('/demonstracoes/select_trimestres_e_anos', options);
@@ -106,7 +97,6 @@ export const fetchTrimestresEAnos = async (options = {}) => {
   }
 };
 
-// Função para buscar uma demonstração contábil pelo ID
 export const fetchDemonstracaoById = async (id, options = {}) => {
   try {
     const response = await api.get(`/demonstracoes/${id}`, options);

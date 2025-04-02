@@ -3,33 +3,15 @@
  *
  * Configures SASS variables and Vuetify overwrites
  */
-
-// https://vuetifyjs.com/features/sass-variables/`
-// @use 'vuetify/settings' with (
-//   $color-pack: false
-// );
-
+ 
 .ag-theme-quartz-dark {
-    /* Variáveis mapeadas da sua definição 'myTheme' */
     --ag-accent-color: #42B983;
     --ag-background-color: #1f2836;
     --ag-foreground-color: #FFF;
-    --ag-header-font-size: 14px; /* AG-Grid pode usar 'rem' ou 'em', verifique a doc */
+    --ag-header-font-size: 14px;
 
-    /* Para o 'chromeBackgroundColor' (ex: fundo do header/tool panel):
-       Você pode definir diretamente ou usar color-mix se o navegador suportar
-       Exemplo: --ag-header-background-color ou --ag-header-cell-background-color
-       O mapeamento exato depende de qual elemento você quer colorir.
-       Vamos supor que seja o header:
-    */
    --ag-header-background-color: color-mix(in srgb, var(--ag-foreground-color) 7%, var(--ag-background-color));
-   /* Se color-mix não for suportado ou o mapeamento for diferente,
-      calcule a cor #2a3443 (aproximadamente) e defina:
-      --ag-header-background-color: #2a3443;
-   */
 
-    /* Adicione outras variáveis AG-Grid que você deseja customizar */
-    --ag-odd-row-background-color: #253040; /* Exemplo: listras de fundo */
-    --ag-row-hover-color: #303f52; /* Exemplo: hover da linha */
-    /* ... etc ... */
+    --ag-odd-row-background-color: #253040;
+    --ag-row-hover-color: #303f52;
 }

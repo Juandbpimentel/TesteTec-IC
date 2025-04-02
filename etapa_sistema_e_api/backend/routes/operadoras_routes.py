@@ -35,9 +35,6 @@ def read_operadoras(
     cidade: Optional[str] = Query(None),
     uf: Optional[str] = Query(None),
 ):
-    """
-    Lista operadoras com paginação baseada em cursor e filtros opcionais.
-    """
     try:
         operadoras_response = get_operadoras(
             session=session,
@@ -52,7 +49,6 @@ def read_operadoras(
             cidade=cidade,
             uf=uf,
         )
-        # Acessar o atributo `operadoras` para determinar o próximo cursor
         next_cursor = operadoras_response.operadoras[-1].registro_operadora if operadoras_response.operadoras else None
         return OperadorasResponse(
             operadoras=operadoras_response.operadoras,
@@ -70,9 +66,6 @@ def maiores_despesas_trimestre(
     ano: Optional[int] = None,
     session: Session = Depends(get_db),
 ):
-    """
-    Retorna as 10 operadoras com maiores despesas no trimestre e ano especificados.
-    """
     try:
         if not descricao:
             raise ErrorResponse(400, "O parâmetro 'descricao' é obrigatório.")
@@ -89,9 +82,6 @@ def maiores_despesas_ano(
     ano: Optional[int] = None,
     session: Session = Depends(get_db),
 ):
-    """
-    Retorna as 10 operadoras com maiores despesas no ano especificado.
-    """
     try:
         if not descricao:
             raise ErrorResponse(400, "O parâmetro 'descricao' é obrigatório.")
@@ -104,9 +94,6 @@ def maiores_despesas_ano(
 
 @router.get("/select_ufs", response_model=List[str])
 def select_ufs(session: Session = Depends(get_db)):
-    """
-    Retorna a lista de UFs distintas das operadoras.
-    """
     try:
         return get_ufs(session)
     except Exception as e:
@@ -115,9 +102,6 @@ def select_ufs(session: Session = Depends(get_db)):
 
 @router.get("/select_modalidades", response_model=List[str])
 def select_modalidades(session: Session = Depends(get_db)):
-    """
-    Retorna a lista de modalidades distintas das operadoras.
-    """
     try:
         return get_modalidades(session)
     except Exception as e:
@@ -126,9 +110,6 @@ def select_modalidades(session: Session = Depends(get_db)):
 
 @router.get("/{registro_operadora}", response_model=OperadoraAtivaDTO)
 def read_operadora(registro_operadora: str, session: Session = Depends(get_db)):
-    """
-    Retorna uma operadora pelo registro.
-    """
     try:
         operadora = get_operadora_by_registro(session, registro_operadora)
         if not operadora:

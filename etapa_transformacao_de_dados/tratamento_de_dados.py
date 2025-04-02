@@ -24,7 +24,6 @@ def filtrar_e_carregar_arquivo(pdfs, arquivo_das_tabelas):
 
     arquivo = arquivos_filtrados[0]
 
-    # Em vez de gravar em disco, usa um stream em memória
     return io.BytesIO(arquivo['conteudo'])
 
 
@@ -35,7 +34,6 @@ def processar_paginas_e_extrair_tabelas(pdfs, arquivo_das_tabelas):
         for pagina in pdf_doc.pages:
             tabela = pagina.extract_table()
             if tabela:
-                # Cria o DataFrame usando a primeira linha como cabeçalho
                 df_tabela = pd.DataFrame(tabela[1:], columns=tabela[0])
                 todas_tabelas.append(df_tabela)
         if not todas_tabelas:
@@ -49,12 +47,10 @@ def trata_dados_tabela(df):
         'OD': 'Seg. Odontológica',
         'AMB': 'Seg. Ambulatorial'
     })
-    # Substitui todas as quebras de linha de forma vetorizada
     df = df.replace(r'\n', ' ', regex=True)
     return df
 
 def salvar_csv_zip(df, nome_zip):
-    # Gera o CSV em memória e cria o ZIP com ele
     csv_buffer = io.StringIO()
     df.to_csv(csv_buffer, index=True)
     csv_buffer.seek(0)

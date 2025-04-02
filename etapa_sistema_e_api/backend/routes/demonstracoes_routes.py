@@ -27,14 +27,10 @@ def read_demonstracoes(
     descricao: Optional[str] = Query(None),
     registro_operadora: Optional[str] = Query(None),
 ):
-    """
-    Lista demonstrações contábeis com paginação baseada em cursor e filtros opcionais.
-    """
     try:
         demonstracoes_response = get_demonstracoes(
             session, limit, start_cursor, trimestre, ano, descricao, registro_operadora
         )
-        # Acessar o atributo `demonstracoes` para determinar o próximo cursor
         next_cursor = demonstracoes_response.demonstracoes[-1].id if demonstracoes_response.demonstracoes else None
         return DemonstracoesResponse(
             demonstracoes=demonstracoes_response.demonstracoes,
@@ -47,9 +43,6 @@ def read_demonstracoes(
 
 @router.get("/select_descricoes", response_model=List[str])
 def select_descricoes(session: Session = Depends(get_db)):
-    """
-    Retorna a lista de descrições distintas das demonstrações contábeis.
-    """
     try:
         return get_descricoes(session)
     except Exception as e:
@@ -58,9 +51,6 @@ def select_descricoes(session: Session = Depends(get_db)):
 
 @router.get("/select_trimestres_e_anos", response_model=List[dict])
 def select_trimestres_e_anos(session: Session = Depends(get_db)):
-    """
-    Retorna os pares distintos de trimestres e anos disponíveis no sistema.
-    """
     try:
         return get_trimestres_e_anos(session)
     except Exception as e:
@@ -72,9 +62,6 @@ def read_demonstracao(
     id: int,
     session: Session = Depends(get_db),
 ):
-    """
-    Retorna uma demonstração contábil pelo ID.
-    """
     try:
         demonstracao = get_demonstracao_by_id(session, id)
         if not demonstracao:

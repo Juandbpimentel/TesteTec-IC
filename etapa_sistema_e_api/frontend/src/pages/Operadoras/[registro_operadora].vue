@@ -1,6 +1,5 @@
 <template>
   <div class="operadora-detalhes">
-    <!-- Seção de Dados Básicos -->
     <v-btn variant="outlined" color="primary" :to="'/'" style="margin-bottom: 1rem;">
       Voltar para Operações
     </v-btn>
@@ -70,15 +69,11 @@
             <v-list-item-subtitle>{{ operadora.modalidade }}</v-list-item-subtitle>
           </v-list-item>
         </v-col>
-
-        <!-- Adicione outros campos conforme necessário -->
       </v-row>
     </div>
 
-    <!-- Seção de Demonstrações Contábeis -->
     <h2 class="section-title">Demonstrações Contábeis</h2>
     <div class="section-content">
-      <!-- Filtros -->
       <v-row>
         <v-col cols="12" md="3">
           <v-text-field v-model="filtroDescricao" label="Filtrar por descrição" clearable
@@ -95,12 +90,10 @@
         </v-col>
       </v-row>
 
-      <!-- Tabela Customizada -->
       <CustomDataTable :row-data="currentPageData" :column-defs="colunasDemonstracoes" :total-items="totalElementos"
         :items-per-page="paginacao.limit" :current-page="paginacao.page" :loading="carregando"
         @page-change="handlePageChange" :hide-actions="true" />
     </div>
-    <!-- Botão para cancelar carregamento -->
     <v-btn variant="outlined" color="error" @click="cancelarRequisicoes">
       Cancelar Carregamento
     </v-btn>
@@ -116,48 +109,44 @@ import { fetchOperadoraByRegistro, fetchDemonstracoes } from '@/services/apiServ
 const route = useRoute();
 const registroOperadora = route.params.registro_operadora;
 
-// Estado reativo
 const operadora = ref({
   registro_operadora: '',
   cnpj: '',
   razao_social: '',
   nome_fantasia: '',
-  // ... outros campos
+  cidade: '',
+  uf: '',
+  modalidade: ''
 });
 
 const pagesData = ref([]);
 const carregando = ref(false);
 const totalElementos = ref(0);
 
-// Filtros
 const filtroDescricao = ref('');
 const filtroTrimestre = ref(null);
 const filtroAno = ref(null);
 
-// Paginação
 const paginacao = ref({
   limit: 10,
   page: 1,
   cursors: [null],
 });
 
-// AbortController para cancelar requisições
 let controller = new AbortController();
 
-// Função para cancelar requisições
 const cancelarRequisicoes = () => {
   if (controller) {
     console.log('Cancelando requisições...');
-    controller.abort(); // Cancela as requisições em andamento
-    controller = new AbortController(); // Cria um novo controller para futuras requisições
+    controller.abort();
+    controller = new AbortController();
   }
 };
 
-// Carregamento inicial
 onMounted(async () => {
   try {
     await carregarOperadora();
-    await carregarDemonstracoes(1); // Carrega as demonstrações somente após carregar a operadora
+    await carregarDemonstracoes(1);
   } catch (error) {
     if (error.name === 'AbortError') {
       console.log('Carregamento inicial cancelado pelo usuário.');
@@ -167,18 +156,16 @@ onMounted(async () => {
   }
 });
 
-// Limpa as requisições ao sair da página
 onBeforeUnmount(() => {
   cancelarRequisicoes();
 });
 
-// Carregar dados da operadora
 const carregarOperadora = async () => {
   try {
     carregando.value = true;
 
     const response = await fetchOperadoraByRegistro(registroOperadora, {
-      signal: controller.signal, // Passa o sinal do AbortController
+      signal: controller.signal,
     });
 
     if (response?.data) {
@@ -195,7 +182,6 @@ const carregarOperadora = async () => {
   }
 };
 
-// Carregar demonstrações com cursor
 const carregarDemonstracoes = async (page = 1) => {
   if (carregando.value) return;
 
@@ -215,10 +201,8 @@ const carregarDemonstracoes = async (page = 1) => {
         ...(filtroAno.value && { ano: filtroAno.value }),
       };
 
-      console.log('Carregando demonstrações com params:', params);
-
       const response = await fetchDemonstracoes(params, {
-        signal: controller.signal, // Passa o sinal do AbortController
+        signal: controller.signal,
       });
 
       if (response?.data) {
@@ -242,12 +226,10 @@ const carregarDemonstracoes = async (page = 1) => {
   }
 };
 
-// Dados da página atual
 const currentPageData = computed(() => {
   return pagesData.value[paginacao.value.page - 1] || [];
 });
 
-// Manipuladores de paginação
 const handlePageChange = (payload) => {
   if (typeof payload === 'object') {
     paginacao.value.limit = payload.itemsPerPage;
@@ -260,7 +242,6 @@ const handlePageChange = (payload) => {
   }
 };
 
-// Função para resetar e recarregar os dados ao atualizar filtros
 const resetAndLoad = () => {
   paginacao.value.page = 1;
   paginacao.value.cursors = [null];
@@ -268,7 +249,6 @@ const resetAndLoad = () => {
   carregarDemonstracoes(1);
 };
 
-// Função para limpar filtros específicos
 const handleFilterClear = (filter) => {
   if (filter === 'descricao') filtroDescricao.value = '';
   if (filter === 'trimestre') filtroTrimestre.value = null;
@@ -276,10 +256,8 @@ const handleFilterClear = (filter) => {
   resetAndLoad();
 };
 
-// Watch para filtros
 watch([filtroDescricao, filtroTrimestre, filtroAno], resetAndLoad);
 
-// Formatação de dados
 const formatarData = (data) => {
   if (!data || data === '-') return '-';
   try {
@@ -295,7 +273,6 @@ const formatCNPJ = (cnpj) => {
   return cleaned.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
 };
 
-// Definição das colunas
 const colunasDemonstracoes = ref([
   {
     headerName: 'Trimestre',

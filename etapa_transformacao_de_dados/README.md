@@ -11,7 +11,7 @@ Este projeto realiza a extração de tabelas de arquivos PDF e a geração de um
 - Gerar um arquivo CSV consolidado e compactado em um ZIP.
 - Automatizar o processo de tratamento e organização dos dados extraídos.
 
-### **Destaques**
+### **Objetivos Técnicos Realizados**
 - **Extração de Dados:** Uso do `pdfplumber` para extrair tabelas diretamente de arquivos PDF.
 - **Manipulação de Dados:** Uso do `pandas` para tratar e transformar os dados extraídos.
 - **Compactação:** Geração de arquivos CSV compactados em formato ZIP para facilitar o armazenamento e compartilhamento.
@@ -119,7 +119,7 @@ etapa_transformacao_de_dados/
 
 ---
 
-## **Destaques Técnicos**
+## **Destaques de Práticas de Otimização**
 - **Automação Completa:** Processo automatizado para extração, tratamento e compactação de dados.
 - **Manipulação de PDFs:** Uso do `pdfplumber` para extração eficiente de tabelas.
 - **Flexibilidade:** Tratamento de dados com o `pandas` para atender diferentes formatos de tabelas.

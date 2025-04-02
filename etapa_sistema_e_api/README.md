@@ -11,7 +11,7 @@ Este projeto implementa um sistema e uma API RESTful para gerenciar e consultar 
 - Implementar endpoints para consultas específicas e análises de dados.
 - Garantir a escalabilidade e a organização do sistema.
 
-### **Destaques**
+### **Objetivos Técnicos Realizados**
 - **Arquitetura Limpa:** Separação clara entre camadas de controle, serviço e modelo.
 - **Deploy Automatizado:** Deploy contínuo no **Google App Engine** (backend) e **Vercel** (frontend).
 - **Banco de Dados na Nuvem:** Uso do **Google Cloud SQL** para armazenar os dados de forma segura e escalável.
@@ -20,6 +20,12 @@ Este projeto implementa um sistema e uma API RESTful para gerenciar e consultar 
 - **Postman Collection:** Uma collection foi criada para facilitar o teste e a documentação da API. O arquivo está disponível em `juandbpimentel_teste_tec_ic.postman_collection.json`.
 - **Validação de Dados:** Uso de validações robustas para garantir a integridade das informações.
 - **Desempenho:** Foco em otimização para consultas rápidas e eficientes.
+
+---
+
+## **Links do Projeto**
+- Frontend: https://teste-tec-ic.vercel.app/
+- Backend: https://testetec-ic.rj.r.appspot.com/docs
 
 ---
 
@@ -189,7 +195,7 @@ Uma collection foi criada para facilitar o teste e a documentação da API. Ela 
 
 ---
 
-## **Destaques Técnicos**
+## **Destaques de Tecnologias**
 - **FastAPI**: Framework rápido e eficiente para desenvolvimento de APIs.
 - **Vue.js**: Framework progressivo para construção de interfaces de usuário.
 - **Google Cloud SQL**: Banco de dados relacional robusto e escalável na nuvem.
@@ -198,5 +204,3 @@ Uma collection foi criada para facilitar o teste e a documentação da API. Ela 
 - **Vercel**: Plataforma de deploy para o frontend com integração contínua.
 
 ---
-
-Se precisar de mais detalhes ou ajustes, é só avisar! 😊

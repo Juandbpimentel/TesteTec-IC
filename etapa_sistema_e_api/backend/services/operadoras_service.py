@@ -24,13 +24,8 @@ def get_operadoras(
     cidade: Optional[str],
     uf: Optional[str]
 ) -> OperadorasResponse:
-    """
-    Retorna uma lista de operadoras com paginação e filtros opcionais.
-    """
-    # Base da consulta
     base_query = session.query(OperadoraAtiva)
 
-    # Aplicar os filtros na consulta base
     if registro_operadora:
         base_query = base_query.filter(func.unaccent(OperadoraAtiva.registro_operadora).ilike(func.unaccent(f"%{registro_operadora}%")))
     if cnpj:
@@ -52,20 +47,15 @@ def get_operadoras(
 
     if start_cursor:
         base_query = base_query.filter(OperadoraAtiva.registro_operadora > start_cursor)
-    # Calcular o total de elementos com os filtros aplicados
 
-    # Aplicar ordenação e limite para a consulta principal
     query = base_query.order_by(OperadoraAtiva.registro_operadora)
     if limit > 0:
         query = query.limit(limit)
 
-    # Obter os registros
     operadoras = query.all()
 
-    # Determinar o próximo cursor
     next_cursor = operadoras[-1].registro_operadora if len(operadoras) == limit else None
 
-    # Retornar a resposta
     return OperadorasResponse(
         operadoras=[OperadoraAtivaListagemDTO.model_validate(op) for op in operadoras],
         next_cursor=next_cursor,
@@ -79,14 +69,11 @@ def get_operadora_by_registro(session: Session, registro_operadora: str):
     ).filter(OperadoraAtiva.registro_operadora == registro_operadora).first()
 
     if operadora:
-        # Extrai apenas os IDs das demonstrações contábeis
         demonstracoes_ids = [demonstracao.id for demonstracao in operadora.demonstracoes_contabeis]
         
-        # Cria um dicionário com os dados da operadora
         operadora_data = operadora.__dict__.copy()
-        operadora_data["demonstracoes_contabeis"] = demonstracoes_ids  # Substitui pela lista de IDs
+        operadora_data["demonstracoes_contabeis"] = demonstracoes_ids
         
-        # Valida o DTO com os dados ajustados
         return OperadoraAtivaDTO(**operadora_data)
 
     return None
@@ -102,8 +89,6 @@ def get_maiores_despesas_trimestre(
         trimestre_ano_query = session.execute(text("SELECT * FROM obter_trimestre_anterior()")).fetchone()
         trimestre = trimestre or trimestre_ano_query[0]
         ano = ano or trimestre_ano_query[1]
-        
-    print(f"Trimestre: {trimestre}, Ano: {ano}")  # Verifique os valores
 
     query = text("""
         SELECT sum(dc.vl_saldo_final) as total_de_despesa, oi.*
@@ -121,8 +106,6 @@ def get_maiores_despesas_trimestre(
     """)
     result = session.execute(query, {"descricao": f"%{descricao}%", "trimestre": trimestre, "ano": ano}).fetchall()
 
-    print(result)  # Verifique os resultados
-
     return [OperadoraAtivaDespesaDTO.model_validate(row) for row in result]
 
 
@@ -131,11 +114,6 @@ def get_maiores_despesas_ano(
     descricao: str,
     ano: Optional[int],
 ) -> List[OperadoraAtivaDespesaDTO]:
-    """
-    Retorna as 10 operadoras com maiores despesas no ano especificado.
-    Se o ano não for fornecido, usa o ano anterior.
-    """
-    # Define o valor padrão para o ano, se não for fornecido
     if not ano:
         ano = session.execute(text("SELECT obter_ano_anterior()")).scalar()
 
