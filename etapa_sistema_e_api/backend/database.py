@@ -8,7 +8,7 @@ import os
 
 # URL de conexão padrão
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:postgresjuandbpimentel@localhost:5432/postgres")
-INSTANCE_CONNECTION_NAME = os.getenv("INSTANCE_CONNECTION_NAME", "testetec-ic:southamerica-east1:testetec-id-postgres")
+INSTANCE_CONNECTION_NAME_GCLOUD = os.getenv("INSTANCE_CONNECTION_NAME_GCLOUD", "testetec-ic:southamerica-east1:testetec-id-postgres")
 USERNAME = os.getenv("USER_NAME", "postgres")
 PASSWORD = os.getenv("PASSWORD", "senha")
 DB_NAME = os.getenv("DB_NAME", "nome_do_banco")
@@ -21,12 +21,12 @@ def get_connection():
     Retorna uma conexão com o banco de dados usando o conector do Google Cloud SQL.
     """
     print("Conectando ao banco de dados usando o conector do Google Cloud SQL...")
-    print(f"Conexão: {INSTANCE_CONNECTION_NAME}")
+    print(f"Conexão: {INSTANCE_CONNECTION_NAME_GCLOUD}")
     print(f"Usuário: {USERNAME}")
     print(f"Banco de dados: {DB_NAME}")
     print(f"Senha: {PASSWORD}")
     conn = connector.connect(
-        INSTANCE_CONNECTION_NAME,  # Substitua pelo nome da conexão do Cloud SQL
+        INSTANCE_CONNECTION_NAME_GCLOUD,  # Substitua pelo nome da conexão do Cloud SQL
         "pg8000",  # Driver para PostgreSQL
         user=f"{USERNAME}",  # Substitua pelo nome de usuário do banco
         password=f"{PASSWORD}",  # Substitua pela senha do banco
