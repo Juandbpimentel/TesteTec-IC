@@ -37,3 +37,8 @@ Obrigado pela oportunidade de participar do processo seletivo, espero que gostem
     <img src="https://img.shields.io/badge/-LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" />
   </a>
 </p>
+
+
+---
+
+**OBS** Eu precisei fazer alguns ajustes depois do período finalm mas não para implementar nenhuma funcionalidade, e sim porque o deploy estava cobrando um valor muito alto pois estava funcionando sem parar, então espero que isso não me desclassifique pois eu só estava ajeitando essa questão para não ter nenhum problema financeiro. Não implementei nenhuma funcionalidade nova, somente corrigi esse problema para não ter nenhum problema futuro.
