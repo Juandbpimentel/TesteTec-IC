@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from backend.services.operadoras_service import get_operadoras, get_ufs, get_modalidades
+from services.operadoras_service import get_operadoras, get_ufs, get_modalidades
 
 def test_get_operadoras():
     session = MagicMock()

@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from backend.services.demonstracoes_service import get_demonstracoes, get_descricoes, get_trimestres_e_anos
+from services.demonstracoes_service import get_demonstracoes, get_descricoes, get_trimestres_e_anos
 
 def test_get_demonstracoes():
     session = MagicMock()
