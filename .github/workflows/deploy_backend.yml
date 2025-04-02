@@ -58,7 +58,7 @@ jobs:
               run: |
                   cd etapa_sistema_e_api/backend
                   nohup gunicorn --bind :8080 --workers 1 --timeout 120 main:application &
-                  export PYTHONPATH=$(pwd)/backend
+                  export PYTHONPATH=$(pwd)
                   sleep 20  # Aumente o tempo de espera para garantir que o servidor esteja ativo
                   pytest
               env:
