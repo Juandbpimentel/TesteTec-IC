@@ -1,4 +1,3 @@
-from main import wsgi_app
+from main import application
 
-# Expõe a aplicação WSGI para o Gunicorn
-app = wsgi_app
+app = application
