@@ -18,4 +18,18 @@ Usando os links de referência acima você pode acessar diretamente a etapa dese
 Obrigado pela oportunidade de participar do processo seletivo, espero que gostem do que foi feito e que possamos trabalhar juntos em breve.
 
 ## Tecnologias usadas durante o teste
-[![My Skills](https://skillicons.dev/icons?i=python,fastapi,vue,postgresql,docker,gcp,firebase,vercel&perline=4)](https://skillicons.dev)
+<p align="center">
+  <a href="https://skillicons.dev">
+    <img src="https://skillicons.dev/icons?i=python,fastapi,vue,postgresql,docker,gcp,firebase,vercel&perline=4" />
+  </a>
+</p>
+
+## Contato
+<p align="center">
+  <a href="mailto:juandbpimentel@gmail.com">
+    <img src="https://img.shields.io/badge/-Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" />
+  </a>
+  <a href="https://www.linkedin.com/in/juan-pimentel-3b6a67221/">
+    <img src="https://img.shields.io/badge/-LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" />
+  </a>
+</p>
