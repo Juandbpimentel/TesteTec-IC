@@ -1,5 +1,6 @@
 runtime: python311
 env: standard
+entrypoint: gunicorn -b :8080 entrypoint:app
 
 instance_class: B1
 
