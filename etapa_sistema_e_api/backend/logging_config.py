@@ -1,11 +1,8 @@
-# logging_utils.py
 from fastapi import Request
 import logging
 import logging.config
-import yaml
-from fastapi.responses import JSONResponse
 import os
-
+from fastapi.responses import JSONResponse
 from error_response import ErrorResponse
 
 class IgnoreWatchfilesFilter(logging.Filter):
@@ -13,37 +10,66 @@ class IgnoreWatchfilesFilter(logging.Filter):
         return "watchfiles.main" not in record.name
 
 def setup_logging():
-    logging_config = {
-        'version': 1,
-        'formatters': {
-            'default': {
-                'format': os.getenv('LOGGING_FORMAT', '%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+    try:
+        logging_config = {
+            'version': 1,
+            'formatters': {
+                'default': {
+                    'format': os.getenv('LOGGING_FORMAT', '%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+                },
             },
-        },
-        'filters': {
-            'ignore_watchfiles': {
-                '()': IgnoreWatchfilesFilter,
+            'filters': {
+                'ignore_watchfiles': {
+                    '()': IgnoreWatchfilesFilter,
+                },
             },
-        },
-        'handlers': {
-            'file': {
-                'class': 'logging.FileHandler',
-                'formatter': 'default',
-                'filename': os.getenv('LOGGING_FILE', 'app.log'),
-                'filters': ['ignore_watchfiles'],
+            'handlers': {
+                'file': {
+                    'class': 'logging.FileHandler',
+                    'formatter': 'default',
+                    'filename': os.getenv('LOGGING_FILE', 'app.log'),
+                    'filters': ['ignore_watchfiles'],
+                },
+                'console': {
+                    'class': 'logging.StreamHandler',
+                    'formatter': 'default',
+                    'filters': ['ignore_watchfiles'],
+                },
             },
-            'console': {
-                'class': 'logging.StreamHandler',
-                'formatter': 'default',
-                'filters': ['ignore_watchfiles'],
+            'root': {
+                'level': os.getenv('LOGGING_LEVEL', 'INFO'),
+                'handlers': ['file', 'console'],
             },
-        },
-        'root': {
-            'level': os.getenv('LOGGING_LEVEL', 'INFO'),
-            'handlers': ['file', 'console'],
-        },
-    }
-    logging.config.dictConfig(logging_config)
+        }
+        logging.config.dictConfig(logging_config)
+    except OSError as e:
+        # Fallback para stdout caso o FileHandler falhe
+        print(f"Erro ao configurar o FileHandler: {e}. Usando apenas o ConsoleHandler.")
+        logging_config = {
+            'version': 1,
+            'formatters': {
+                'default': {
+                    'format': os.getenv('LOGGING_FORMAT', '%(asctime)s - %(name)s - %(levelname)s - %(message)s'),
+                },
+            },
+            'filters': {
+                'ignore_watchfiles': {
+                    '()': IgnoreWatchfilesFilter,
+                },
+            },
+            'handlers': {
+                'console': {
+                    'class': 'logging.StreamHandler',
+                    'formatter': 'default',
+                    'filters': ['ignore_watchfiles'],
+                },
+            },
+            'root': {
+                'level': os.getenv('LOGGING_LEVEL', 'INFO'),
+                'handlers': ['console'],
+            },
+        }
+        logging.config.dictConfig(logging_config)
 
 async def log_exceptions_middleware(request: Request, call_next):
     try:
