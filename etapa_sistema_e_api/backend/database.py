@@ -20,8 +20,13 @@ def get_connection():
     """
     Retorna uma conexão com o banco de dados usando o conector do Google Cloud SQL.
     """
+    print("Conectando ao banco de dados usando o conector do Google Cloud SQL...")
+    print(f"Conexão: {INSTANCE_CONNECTION_NAME}")
+    print(f"Usuário: {USERNAME}")
+    print(f"Banco de dados: {DB_NAME}")
+    print(f"Senha: {PASSWORD}")
     conn = connector.connect(
-        f"{INSTANCE_CONNECTION_NAME}",  # Substitua pelo nome da conexão do Cloud SQL
+        INSTANCE_CONNECTION_NAME,  # Substitua pelo nome da conexão do Cloud SQL
         "pg8000",  # Driver para PostgreSQL
         user=f"{USERNAME}",  # Substitua pelo nome de usuário do banco
         password=f"{PASSWORD}",  # Substitua pela senha do banco
