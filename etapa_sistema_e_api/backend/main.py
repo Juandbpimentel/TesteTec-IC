@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from dotenv import load_dotenv
 import os
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.wsgi import WSGIMiddleware
 
 if os.getenv("ENVIRONMENT") != "production":
     load_dotenv()
@@ -38,3 +39,5 @@ app.include_router(demonstracoes_routes.router)
 @app.get("/")
 def read_root():
     return {"message": "Bem-vindo ao backend FastAPI com PostgreSQL!"}
+
+wsgi_app = WSGIMiddleware(app)
