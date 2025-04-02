@@ -47,6 +47,7 @@ etapa_sistema_e_api/
 │   ├── error_response.py
 │   ├── logging_config.py
 │   ├── logs.log
+│   ├── app.py
 │   ├── main.py
 │   ├── models.py
 │   ├── requirements.txt
@@ -86,7 +87,7 @@ etapa_sistema_e_api/
 O backend foi desenvolvido utilizando **FastAPI** e **PostgreSQL**. Ele é responsável por expor os dados das operadoras de saúde e suas demonstrações contábeis por meio de uma API RESTful.
 
 #### **Principais Arquivos**
-- **`main.py`**: Configuração principal do FastAPI, incluindo middlewares e rotas.
+- **`app.py`**: Configuração principal do FastAPI, incluindo middlewares e rotas.
 - **`models.py`**: Definição dos modelos de dados utilizando SQLAlchemy.
 - **`routes/`**: Contém as rotas da API, como:
   - `operadoras_routes.py`: Endpoints para gerenciar operadoras.
@@ -168,13 +169,24 @@ Uma collection foi criada para facilitar o teste e a documentação da API. Ela 
 ## **Execução do Projeto**
 
 ### **1. Backend**
-1. Instale as dependências:
+
+1. Entre no diretório do backend:
    ```bash
-   pip install -r backend/requirements.txt
+   cd backend
    ```
-2. Execute o backend:
+2. Crie um arquivo `.env` com as variáveis de ambiente:
    ```bash
-   uvicorn backend.main:app --reload
+   cp .env.example .env
+   ```
+
+3. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Execute o backend:
+   ```bash
+   python main.py
    ```
 
 ### **2. Frontend**
