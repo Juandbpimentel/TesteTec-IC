@@ -10,7 +10,26 @@ class IgnoreWatchfilesFilter(logging.Filter):
         return "watchfiles.main" not in record.name
 
 def setup_logging():
+    # Verifica se o logging em arquivo está habilitado via variável de ambiente
+    enable_file_logging = os.getenv("ENABLE_FILE_LOGGING", "true").lower() == "true"
+
     try:
+        handlers = {
+            'console': {
+                'class': 'logging.StreamHandler',
+                'formatter': 'default',
+                'filters': ['ignore_watchfiles'],
+            }
+        }
+
+        if enable_file_logging:
+            handlers['file'] = {
+                'class': 'logging.FileHandler',
+                'formatter': 'default',
+                'filename': os.getenv('LOGGING_FILE', '/workspace/logs.log'),
+                'filters': ['ignore_watchfiles'],
+            }
+
         logging_config = {
             'version': 1,
             'formatters': {
@@ -23,22 +42,10 @@ def setup_logging():
                     '()': IgnoreWatchfilesFilter,
                 },
             },
-            'handlers': {
-                'file': {
-                    'class': 'logging.FileHandler',
-                    'formatter': 'default',
-                    'filename': os.getenv('LOGGING_FILE', 'app.log'),
-                    'filters': ['ignore_watchfiles'],
-                },
-                'console': {
-                    'class': 'logging.StreamHandler',
-                    'formatter': 'default',
-                    'filters': ['ignore_watchfiles'],
-                },
-            },
+            'handlers': handlers,
             'root': {
                 'level': os.getenv('LOGGING_LEVEL', 'INFO'),
-                'handlers': ['file', 'console'],
+                'handlers': list(handlers.keys()),
             },
         }
         logging.config.dictConfig(logging_config)
