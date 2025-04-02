@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "00735784-8262-4b91-b4ab-4828c87b2fe9",
+		"name": "Backend FastAPI com PostgreSQL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43540744",
+		"_collection_link": "https://www.postman.com/juanpimentel-5033232/workspace/documentao-de-api-backend-python-teste-tcnico-intiutive-care/collection/43540744-00735784-8262-4b91-b4ab-4828c87b2fe9?action=share&source=collection_link&creator=43540744"
+	},
+	"item": [
+		{
+			"name": "Operadoras",
+			"item": [
+				{
+					"name": "Listar Operadoras",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/operadoras/?limit=10&start_cursor=&registro_operadora=&cnpj=",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"operadoras",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10",
+									"description": "Quantidade de itens por página (default: 10)"
+								},
+								{
+									"key": "start_cursor",
+									"value": "",
+									"description": "Cursor para paginação"
+								},
+								{
+									"key": "registro_operadora",
+									"value": "",
+									"description": "Filtrar por registro da operadora"
+								},
+								{
+									"key": "cnpj",
+									"value": "",
+									"description": "Filtrar por CNPJ"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Top 10 Despesas Trimestre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/operadoras/maiores_despesas_trimestre?trimestre=1&ano=2023",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"operadoras",
+								"maiores_despesas_trimestre"
+							],
+							"query": [
+								{
+									"key": "trimestre",
+									"value": "1",
+									"description": "Número do trimestre (1-4)"
+								},
+								{
+									"key": "ano",
+									"value": "2023",
+									"description": "Ano de referência"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Top 10 Despesas Ano",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/operadoras/maiores_despesas_ano?ano=2023",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"operadoras",
+								"maiores_despesas_ano"
+							],
+							"query": [
+								{
+									"key": "ano",
+									"value": "2023",
+									"description": "Ano de referência"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar UFs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/operadoras/select_ufs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"operadoras",
+								"select_ufs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Modalidades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/operadoras/select_modalidades",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"operadoras",
+								"select_modalidades"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detalhes Operadora",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/operadoras/12345",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"operadoras",
+								"12345"
+							],
+							"variable": [
+								{
+									"key": "registro_operadora",
+									"value": "12345"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Demonstrações",
+			"item": [
+				{
+					"name": "Listar Demonstrações",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/demonstracoes/?trimestre=1&ano=2023",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"demonstracoes",
+								""
+							],
+							"query": [
+								{
+									"key": "trimestre",
+									"value": "1",
+									"description": "Número do trimestre (1-4)"
+								},
+								{
+									"key": "ano",
+									"value": "2023",
+									"description": "Ano de referência"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Descrições",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/demonstracoes/select_descricoes",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"demonstracoes",
+								"select_descricoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Trimestres/Anos",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/demonstracoes/select_trimestres_e_anos",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"demonstracoes",
+								"select_trimestres_e_anos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Detalhes Demonstração",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/demonstracoes/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"demonstracoes",
+								"1"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		}
+	]
+}
