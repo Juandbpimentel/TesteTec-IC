@@ -1,5 +1,5 @@
 # Teste de Nivelamento Para Intuitive Care
-Olá, meu nome é Juan Pimentel, e aqui neste repositório eu vou guardar e documentar passo a passo cada etapa feita do teste de nivelamento para a Intuitive Care.
+Olá, meu nome é Juan Pimentel, e aqui neste repositório eu vou guardar e documentar passo a passo cada etapa feita para um teste de nivelamento de um processo seletivo.
 
 ## Observações Iniciais e Organização do Repositório
 O teste foi dividido em 4 etapas, sendo elas:
@@ -13,9 +13,8 @@ Em cada etapa terá um documento Readme como este explicando o que foi feito e c
 
 Usando os links de referência acima você pode acessar diretamente a etapa desejada e visualizar o que foi feito nela.
 
-## Observações Finais
-
-Obrigado pela oportunidade de participar do processo seletivo, espero que gostem do que foi feito e que possamos trabalhar juntos em breve.
+## OBS:
+Os links que direcionam para o site do projeto e backend estão offline, pois não pude continuar mantendo o projeto por depender de uma infraestrutura que é muito custosa por conta do Big Data.
 
 ## Tecnologias usadas durante o teste
 <p align="center">
@@ -33,8 +32,3 @@ Obrigado pela oportunidade de participar do processo seletivo, espero que gostem
     <img src="https://img.shields.io/badge/-LinkedIn-blue?style=for-the-badge&logo=linkedin&logoColor=white" />
   </a>
 </p>
-
-
----
-
-**OBS** Eu precisei fazer alguns ajustes depois do período finalm mas não para implementar nenhuma funcionalidade, e sim porque o deploy estava cobrando um valor muito alto pois estava funcionando sem parar, então espero que isso não me desclassifique pois eu só estava ajeitando essa questão para não ter nenhum problema financeiro. Não implementei nenhuma funcionalidade nova, somente corrigi esse problema para não ter nenhum problema futuro.
